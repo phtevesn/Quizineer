@@ -51,7 +51,7 @@ Table of Contents
         1. Clone the repository:
             - Open up you Command Prompt and use the following command below. Make sure to add the correct file pathing at the end 
               for where you want to store the project.
-                    -> git clone https://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@github.com/weeniehutjrs-131/Final_Repository.git
+                    -> git clone 
         2. Install dependencies:
             - Once the project is cloned where you want, open up the folder "Final_Repository" within you preferred IDE and run the
               following command within the IDE to install the dependencies.
