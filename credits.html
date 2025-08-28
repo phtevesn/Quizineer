@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Credits - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Standard Favicon for most browsers -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <!-- Apple Touch Icon (for iOS and macOS) -->
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <!-- Android Chrome Icon (for Android devices) -->
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <!-- Microsoft Tile Icon for Windows (optional) -->
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <style>
+        /* Default (Light Mode) Styles */
+    .container.credits-section h1 {
+        color: #3D2C2E; /* Default dark color for Credits title */
+    }
+    .member h4,
+    .member p {
+        color: #3D2C2E; /* Default dark color for team member names and text */
+    }
+    .member img {
+        width: 150px; /* Ensure consistent size for images */
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%; /* Optional: Make images circular */
+    }
+    /* Footer text in light mode */
+    .footer-text {
+        color: #639fab;
+    }
+    /* Dark Mode Styles */
+    body.dark-mode .container.credits-section h1 {
+        color: #FFFFFF; /* White color for Credits title in dark mode */
+    }
+    body.dark-mode .member h4,
+    body.dark-mode .member p {
+        color: #FFFFFF; /* White text for team member names and details in dark mode */
+    }
+    body.dark-mode .footer-text {
+        color: #FFFFFF; /* White footer text in dark mode */
+    }
+    body.dark-mode .member img {
+        filter: brightness(80%); /* Slightly dim images in dark mode (optional) */
+    }
+    /* Team Members Grid */
+.team-grid {
+    display: flex; /* Flexbox for alignment */
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    justify-content: space-around; /* Space members evenly */
+    gap: 20px; /* Add consistent spacing between members */
+    width: 100%; /* Full width of the container */
+    margin-top: 20px;
+}
+
+/* Team Member Cards */
+.container.credits-section .member {
+    flex: 1 1 calc(20% - 20px); /* Responsive width for five members in a row */
+    padding: 20px;
+    background-color: #639FAB;
+    border-radius: 30px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .container.credits-section .member {
+        flex: 1 1 calc(33.33% - 20px); /* Three members per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .container.credits-section .member {
+        flex: 1 1 calc(50% - 20px); /* Two members per row */
+    }
+}
+
+@media (max-width: 500px) {
+    .container.credits-section .member {
+        flex: 1 1 100%; /* One member per row */
+    }
+}
+/* Dark mode color for the credits section headings and member details */
+body.dark-mode .credits-section h1 {
+    color: #FFFFFF; /* White title for Credits section in dark mode */
+}
+
+body.dark-mode .credits-section .member h4,
+body.dark-mode .credits-section .member p {
+    color: #FFFFFF; /* White text for team member names and descriptions in dark mode */
+}
+/* Dark Mode Styles for Credits Section */
+body.dark-mode .container.credits-section {
+    background-color: #121212; /* Matches dark mode background for "About Us" section */
+    border-color: #444; /* Softer borders similar to "About Us" */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Softer shadow for consistency */
+}
+
+/* Dark Mode Styles for Individual Team Member Cards in Credits Section */
+body.dark-mode .container.credits-section .member {
+    background-color: #2b2b2b; /* Darker background for individual member containers */
+    color: #fafafa; /* Softer white text for readability */
+    border-color: #444; /* Softer border color */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Similar shadow for member containers */
+}
+
+/* Dark Mode Hover Effect for Team Member Cards */
+body.dark-mode .container.credits-section .member:hover {
+    background: linear-gradient(120deg, #639fab, #3D2C2E); /* Keep the gradient hover effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* A slightly deeper shadow on hover */
+}
+
+    </style>
+</head>
+<body>
+    <div class="content-wrapper"> <!-- KEEPS THE FOOTER AT THE BOTTOM -->
+        <!-- Sidebar navigation -->
+        <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+            <!-- Close button for sidebar -->
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <!-- Sidebar page links -->
+                    <br><br><br><br>
+                    <a href="index.html">Home</a><br>
+                    <a href="login.html">Login</a><br>
+                    <a href="about.html">About</a><br>
+                    <a href="credits.html">Credits</a><br>
+                    <a href="contact.html">Contact</a><br>       
+            <!-- Toggle button for light/dark mode -->
+            <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+                <span id="light-mode-label">Light Mode</span>
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span id="dark-mode-label">Dark Mode</span>
+            </div>
+        </div>
+<!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+        <!-- Main content -->
+    <main>
+    <section class="hero">
+    <!-- Credits Section -->
+    <div class="container credits-section">
+        <h1>Credits</h1>
+        <div class="team-grid">
+            <div class="member">
+                <img src="Images/Angelo.jpg" alt="Angelo Angelidis" class="team-photo">
+                <h4>Angelo Angelidis</h4>
+                <p><strong>Documentation</strong></p>
+                <p>Created UML Diagrams</p>
+                <p>Created Use Case Diagrams</p>
+            </div>
+            <div class="member">
+                <img src="Images/Steven.jpg" alt="Steven Inouye" class="team-photo">
+                <h4>Steven Inouye</h4>
+                <p><strong>Back-End Developer</strong></p>
+                <p>Designed and managed database interactions</p>
+                <p>Developed robust APIs with Node.js</p>
+                <p>Optimized data handling using MySQL</p>
+                <p>Built secure server-side methods</p>
+                <p>Enabled seamless frontend integration</p>
+                <p>Contributed to project design (UMLs)</p>
+            </div>
+            <div class="member">
+                <img src="Images/Tatiana.jpg" alt="Tatiana Neville" class="team-photo">
+                <h4>Tatiana Neville</h4>
+                <p><strong>Project Manager</strong></p>
+                <p>Organized and led team meetings</p>
+                <p>Maintained detailed meeting notes</p>
+                <p>Facilitated clear, ongoing communication</p>
+                <p>Promoted team morale and cohesion</p>
+                <p>Produced comprehensive project report</p>
+                <p>Developed algorithmic diagrams</p>   
+            </div>
+            <div class="member">
+                <img src="Images/Devin.jpg" alt="Devin Wynne" class="team-photo">
+                <h4>Devin Wynne</h4>
+                <p><strong>Front-End Developer</strong></p>
+                <p><strong>Back-End Developer</strong></p>
+                <p>Implemented user email functionality</p>
+                <p>Secured admin login processes</p>
+                <p>Designed and built quiz page layout</p>
+                <p>Ensured full website deployment</p>
+                <p>Authored comprehensive README file</p>
+            </div>
+            <div class="member">
+                <img src="Images/Joshua.jpg" alt="Joshua Zamora" class="team-photo">
+                <h4>Joshua Zamora</h4>
+                <p><strong>Front-End Developer</strong></p>
+                <p>Designed & Implemented core pages with HTML, CSS, and JS</p>
+                <p>Built interactive features to enhance engagement</p>
+                <p>Maintained a cohesive, professional style</p>
+                <p>Created logo and branding assets</p>
+                <p>Integrated favicon for brand identity</p>
+                <p>Optimized site for performance</p>
+                <p>Ensured responsive, mobile-friendly layout</p>
+                <p>Collaborated to ensure UI consistency</p>                
+            </div>
+        </div>
+    </div>
+    
+    </section>
+</main>
+</div>
+<!-- Footer Section with Social Media Icons -->
+<footer>
+    <div class="footer">
+        <div class="social-icons">
+            <!-- Social media links with icons -->
+            <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a> <!-- Twitter -->
+            <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a> <!-- Facebook -->
+            <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a> <!-- LinkedIn -->
+            <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a> <!-- Instagram -->
+            <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a> <!-- GitHub -->
+        </div>
+        <!-- Designed by Project Alpha text -->
+        <div class="footer-text">
+            Designed by Project Alpha, 2024
+        </div>
+    </div>
+</footer>
+<!-- JavaScript functions to control sidebar behavior -->
+<script>
+    // Open sidebar by expanding width and shifting main content
+    function openNav() {
+        document.getElementById("leftSidebar").style.width = "250px"; // Sidebar width
+        document.getElementById("main").style.marginLeft = "250px"; // Adjust main content margin
+    }
+    // Close sidebar by resetting width and main content margin
+    function closeNav() {
+        document.getElementById("leftSidebar").style.width = "0"; // Hide sidebar
+        document.getElementById("main").style.marginLeft = "0"; // Reset margin
+    }
+    // Check saved theme on load and apply it
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+            document.getElementById('theme-toggle-checkbox').checked = savedTheme === 'dark';
+        }
+    });
+    // Toggle theme and save preference
+    function toggleTheme() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    }
+    // Add event listener to the checkbox
+    document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleTheme);
+</script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive Web Design -->
+    <title>Quiz - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/balloon-css/1.2.0/balloon.min.css">
+    <!-- Standard Favicon for most browsers -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <!-- Apple Touch Icon (for iOS and macOS) -->
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <!-- Android Chrome Icon (for Android devices) -->
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <!-- Microsoft Tile Icon for Windows (optional) -->
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <style>
+    /* Style for larger question text */
+    #question-text {
+    font-size: 1.8em; /* Adjust as needed */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    }
+    /* Style for the answer buttons */
+    #answer-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    }
+    /* Style for answer buttons */
+    #answer-buttons button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 1.1em;
+    border: 1px solid #639fab;
+    border-radius: 30px;
+    background-color: #3d2c2e;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s;
+    }
+    #answer-buttons button:hover {
+    background-color: #639fab;
+    }
+    /* Style for "Next" and "Skip" buttons in a single line */
+    .quiz-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Add space between the buttons */
+    margin-top: 10px;
+    }
+    /* Styling for Next and Skip buttons */
+    .quiz-button-container button {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    background-color: #3d2c2e;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    }
+    .quiz-button-container button:hover {
+    background-color: #639fab;
+    }
+    /* Larger font for quiz title */
+    #quizTitle {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    }
+    /* Style for selected answer button */
+    .selected-answer {
+        background-color: #639fab !important;
+        color: white !important;
+        border: 2px solid #444; /* Adjust if you need a border for visibility */
+    }
+    /* Dark mode style for the selected answer button */
+    body.dark-mode .selected-answer {
+        background-color: #91c7c1 !important; /* Light teal for contrast in dark mode */
+        color: #fff !important;
+    }
+    /* Ensure that other answer buttons do not override dark mode settings */
+    body.dark-mode #answer-buttons button {
+        background-color: #639fab !important; /* Darker button color in dark mode */
+        color: #fafafa !important;
+    }
+    /* Submit button at the bottom of quiz container */
+    #submitButton {
+    padding: 10px;
+    font-size: 1.1em;
+    background-color: #3d2c2e;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    }
+    #submitButton:hover {
+    background-color: #639fab;
+    }
+    /* Result and container spacing adjustments */
+    #quizContainer {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid #3d2c2e;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(102, 38, 38, 0.1);
+    }
+    /* Wrapper for Results - Full Screen Overlay */
+    #results-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(120deg, #639FAB, #686162);
+        z-index: 1000; /* Ensure it overlays other content */
+    }
+    /* Style for #results to ensure it looks centered within the wrapper */
+    #results {
+        padding: 20px;
+        max-width: 600px;
+        width: 90%;
+        border: 10px solid #ddd;
+        border-radius: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        background-color: #fff; /* White background */
+    }
+    #main {
+        margin-bottom: 50px; /* Space between main content and footer */
+        padding-top: 20px; /* Consistent space above the content */
+        padding-bottom: 40px; /* Consistent space below the content */
+    }
+    /* Content wrapper adjustments */
+    .content-wrapper {
+        margin-bottom: 100px; /* Add bottom margin to push the footer further down */
+    }
+    /* Title and Logout Button Container */
+    .title-logout-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px; /* Adjust distance between title and button */
+        padding-top: 10px; /* Reduce space between title/logout container and top of #main */
+        margin-bottom: -50px; /* Reduce gap below the container */
+    }
+    /* Style for the quiz title */
+    .quiz-title {
+        font-size: 2.5em;
+        margin: 0;
+        /*padding: 0;*/
+        text-align: center;
+    }
+    #attempts-and-average {
+        margin-top: 20px;
+        font-size: 1.2em;
+        color: #3d2c2e;
+        text-align: center;
+    }
+    #attempts-and-average strong {
+        color: #639fab;
+    }
+    #logout-button {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        background-color: #3d2c2e;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    #logout-button:hover {
+        background-color: #639fab;
+    }
+    /* General style for answer buttons */
+    #answer-buttons button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        font-size: 1.1em;
+        border: 1px solid #639fab;
+        border-radius: 30px;
+        background-color: #3d2c2e;
+        color: white;
+        cursor: pointer;
+        text-align: left;
+        transition: background-color 0.3s;
+    }
+    /* Style for hover effect */
+    #answer-buttons button:hover {
+        background-color: #639fab;
+    }
+    /* Style for the selected answer button in light mode */
+    #answer-buttons button.selected-answer {
+        background-color: #639fab !important;
+        color: white !important;
+        border: 2px solid #444; /* Optional for better visibility */
+    }
+    /* Dark mode style for the selected answer button */
+    body.dark-mode #answer-buttons button.selected-answer {
+        background-color: #3d2c2e !important; /* Light teal for contrast */
+        color: #ffffff !important;
+        border: 2px solid #888;
+    }
+        </style>
+</head>
+<body>
+<!-- Sidebar navigation -->
+<div class="flex-container">
+<div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+    <!-- Close button for sidebar -->
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <!-- Sidebar page links -->
+                    <br><br><br><br>
+                    <a href="index.html">Home</a><br>
+                    <a href="login.html">Login</a><br>
+                    <a href="about.html">About</a><br>
+                    <a href="credits.html">Credits</a><br>
+                    <a href="contact.html">Contact</a><br>
+    <!-- Toggle button for light/dark mode -->
+    <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+        <span id="light-mode-label">Light Mode</span>
+        <input type="checkbox" id="theme-toggle-checkbox">
+        <span id="dark-mode-label">Dark Mode</span>
+    </div>
+</div>
+<!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <section class="hero">
+            <!-- Page section for Quiz -->
+            <div class="container quiz-section">
+                <div id="quiz-prompt">
+                    <h1 id="quiz-prompt-title" style="text-align: center;">Are you ready to take a quiz?</h1>
+                    <div id="quiz-info" style="text-align: center; margin-bottom: 20px;">
+                        <p>Feel free to skip tough questions, but you can't return to them, and no points will be awarded for skipped ones. Allocate enough time for the quiz. Good luck!</p>
+                        <br>
+                        <p><strong class="highlight">Quiz Title:</strong> <span id="quizPromptTitleDisplay"></span></p> <!-- Display quiz title here -->
+                        <p><strong class="highlight">Quiz Duration:</strong> <span id="quiz-duration"></span></p>
+                        <p><strong class="highlight">Number of Questions:</strong> <span id="num-questions"></span></p>
+                        <p><strong class="highlight">Scoring:</strong> 1 point for each correct answer.</p>
+                        <p><strong class="highlight">Tips:</strong> Read each question carefully and take your time!</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <button id="start-quiz-button">Start Quiz</button>
+                        <button id="logoutButton" class="logout-btn">Logout</button>
+                    </div>
+                </div>
+
+                <!-- The quiz container where the actual quiz happens -->
+                <div id="quizContainer" style="display:none;">
+                    <h2 id="quizTitle">Quiz Title</h2>  <!-- This one is for the quiz page -->
+                    <div id="timer" class="timer">
+                        <h2>Seconds Left: <span id="time-left">30</span></h2>
+                    </div>
+                    <div id="question-text"></div>
+                    <div id="answer-buttons"></div>
+
+                    <!-- Navigation buttons -->
+                    <div class="quiz-button-container">
+                        <button id="nextButton" onclick="showNextQuestion()" style="display:none;">Next Question</button>
+                        <button id="skipButton" onclick="skipQuestion()">Skip Question</button>
+                    </div>
+                </div>
+
+                <!-- The Results Wrapper for Centered Display -->
+                <div id="results-wrapper" style="display: none;">
+                    <div id="results">
+                        <h2>Quiz Results</h2>
+                        <h1>
+                            <p>Your Score: <span id="score">0</span> out of <span id="total-questions"></span></p>
+                        </h1>
+                        <div id="attempts-and-average">
+                            <p><strong>Number of Attempts:</strong> <span id="attempts"></span></p>
+                            <p><strong>Average Score:</strong> <span id="average-score"></span></p>
+                        </div>
+                        <div class="button-container" style="text-align: center;">
+                            <button id="retake-quiz-button">Retake Quiz</button>
+                            <button id="logout-button" onclick="logout()">Logout</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</div>
+<!-- Footer Section with Social Media Icons -->
+<footer>
+    <div class="footer">
+        <div class="social-icons">
+            <!-- Social media links with icons -->
+            <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a> <!-- Twitter -->
+            <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a> <!-- Facebook -->
+            <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a> <!-- LinkedIn -->
+            <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a> <!-- Instagram -->
+            <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a> <!-- GitHub -->
+        </div>
+        <!-- Designed by Project Alpha text -->
+        <div class="footer-text">
+            Designed by Project Alpha, 2024
+        </div>
+    </div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Access the theme toggle checkbox
+        const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+    // Check saved theme on load and apply it
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+            document.getElementById('theme-toggle-checkbox').checked = savedTheme === 'dark';
+        }
+    });
+    // Toggle theme and save preference
+    function toggleTheme() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    }
+    // Add event listener to the checkbox
+    document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleTheme);
+        // Sidebar toggle functions
+        document.querySelector(".openbtn").addEventListener("click", openNav);
+        document.querySelector(".closebtn").addEventListener("click", closeNav);
+        function openNav() {
+            document.getElementById("leftSidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+        function closeNav() {
+            document.getElementById("leftSidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    });
+</script>
+    <script src="quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Bank - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Favicons and App Icons -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <style>
+        .minimize-btn {
+    text-align: center; /* Centers text horizontally */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- Sidebar navigation -->
+        <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+            <!-- Close button for sidebar -->
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <!-- Sidebar page links -->
+            <br><br><br><br>
+            <a href="index.html">Home</a><br>
+            <a href="login.html">Login</a><br>
+            <a href="about.html">About</a><br>
+            <a href="credits.html">Credits</a><br>
+            <a href="contact.html">Contact</a><br>
+            <!-- Toggle button for light/dark mode -->
+            <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+                <span id="light-mode-label">Light Mode</span>
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span id="dark-mode-label">Dark Mode</span>
+            </div>
+        </div>
+<!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+        <!-- Main content -->
+        <main>
+    <section class="hero">
+            <div class="logout-container">
+                <button id="logoutButton" class="logout-btn">Logout</button>
+                <button id="quizbankSettingsButton" class="settings-btn" onclick="openSettings()">Settings</button>
+                <button id="dashboardButton" class="dashboard-btn">Dashboard</button>
+                <button id="userManagementButton" class="dashboard-btn" onclick="window.location.href='management.html'">User Management</button>
+            </div>
+            <!-- Quiz Bank Section -->
+            <!-- i deleted this primary area but need to add a message like no quizzes have been created -->
+            <!-- steven added this part --> 
+            <div class="no-quizzes-container">
+            <h3>No created quizzes</h3>
+            </div>           
+        <div id="quizBankTablesContainer">
+            <!-- Tables will be dynamically generated here -->
+        </div>
+        </section>
+    </main>
+        </div>
+        <!-- Footer Section with Social Media Icons -->
+        <footer>
+            <div class="footer">
+                <div class="social-icons">
+                    <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a>
+                </div>
+                <div class="footer-text">Designed by Project Alpha, 2024</div>
+            </div>
+        </footer>
+    </div>
+    <!-- JavaScript for sidebar, theme toggle, logout, and settings functionality -->
+    <script>
+        function openNav() {
+            document.getElementById("leftSidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+        function closeNav() {
+            document.getElementById("leftSidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+        document.getElementById('theme-toggle-checkbox').addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+            localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+        });
+        window.addEventListener('DOMContentLoaded', () => {
+            const theme = localStorage.getItem('theme');
+            const isDarkMode = theme === 'dark';
+            document.getElementById('theme-toggle-checkbox').checked = isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            renderAllQuizBanks();
+        });
+        async function openSettings() {           
+            const tests = await fetchTests();
+            console.log(tests)            
+            if (Object.keys(tests).length === 1) {
+                alert('Please create a test in the dashboard to view test settings.');
+                return;
+            }
+            const liveTest = await fetchLiveTest();
+            console.log(liveTest)
+            const liveTestTitle = tests[liveTest].testTitle;
+            const liveTestTimer = tests[liveTest].timer;
+            const liveQuestionNum = tests[liveTest].questionNum;
+            //my next step is to fill the settings with the test i get from the database
+            const overlay = document.createElement('div');
+            overlay.className = 'settings-overlay';
+            overlay.innerHTML = `
+                <div class="settings-container">
+                    <h3>Quiz Settings</h3>
+                    <div class="quiz-select-container" style="margin-bottom: 20px;">
+                        <label for="quizDropdown">Current Live Quiz:</label>
+                        <select id="quizDropdown" class="quiz-select">
+                        </select>
+                    </div>
+                    <div id="formContainer">
+                        <div class="title-container" style="margin-bottom: 20px;">
+                            <label for="quizTitle">Edit Quiz Title:</label>
+                            <input type="text" id="quizTitle" class="title-input" placeholder="Enter quiz title">
+                        </div>
+                        <div class="total-questions-container" style="margin-bottom: 20px;">
+                            <label for="totalQuestionsDropdown">Total Questions:</label>
+                            <select id="totalQuestionsDropdown" class="total-questions-select">
+                                <option value="1">1 Question</option>
+                                <option value="5">5 Questions</option>
+                                <option value="10">10 Questions</option>
+                                <option value="15">15 Questions</option>
+                                <option value="20">20 Questions</option>
+                                <option value="25">25 Questions</option>
+                            </select>
+                        </div>
+                        <div class="timer-container" style="margin-bottom: 20px;">
+                            <label for="timerDropdown">Question Timer (seconds):</label>
+                            <select id="timerDropdown" class="timer-select">
+                                <option value="10">10 seconds</option>
+                                <option value="20">20 seconds</option>
+                                <option value="30">30 seconds</option>
+                                <option value="60">60 seconds</option>
+                                <option value="90">90 seconds</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="action-buttons-container">
+                        <button onclick="saveSettings()">Save</button>
+                        <button onclick="closeSettings()">Cancel</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            //this sets the dropdown of the quiz options with the quizzes in the database and sets the one that is live to the selected option
+            const quizDropdown = document.getElementById('quizDropdown')
+            for (const [testID, testDetails] of Object.entries(tests)) {
+                const option = document.createElement('option');
+                option.value = testID; 
+                option.textContent = testDetails.testTitle; 
+                if (parseInt(testID, 10) === liveTest) {
+                    option.selected = true;
+                }
+                quizDropdown.appendChild(option);
+            }
+            updateSettingsDropdowns(tests, liveTest);
+            //these two methods make it so that the timer and question Num change based on the chose test
+            quizDropdown.addEventListener('change', (event) => {
+                const selectedTestId = parseInt(event.target.value);
+                updateSettingsDropdowns(tests, selectedTestId);
+            });
+            function updateSettingsDropdowns(tests, selectedTestId) {
+                const titleInput = document.getElementById('quizTitle');
+                const totalQuestionsDropdown = document.getElementById('totalQuestionsDropdown');
+                const timerDropdown = document.getElementById('timerDropdown');
+
+                const formContainer = document.getElementById('formContainer'); // Parent container of the fields
+                if (selectedTestId === -1) {
+                    // Hide the fields when ID is -1
+                    formContainer.style.display = 'none';
+                    return;
+                }
+                // Show the fields if a valid test is selected
+                formContainer.style.display = 'block';
+                const selectedTest = tests[selectedTestId];
+                if (!selectedTest) return;
+                titleInput.value = selectedTest.testTitle;
+                Array.from(totalQuestionsDropdown.options).forEach((option) => {
+                    option.selected = parseInt(option.value) === selectedTest.questionNum;
+                });
+                Array.from(timerDropdown.options).forEach((option) => {
+                    option.selected = parseInt(option.value) === selectedTest.timer;
+                });
+            }
+        }
+        function closeSettings() {
+            const overlay = document.querySelector('.settings-overlay');
+            if (overlay) overlay.remove();
+        }
+        async function saveSettings() {
+            const quizChoiceID = document.getElementById("quizDropdown").value;
+            let newTestTitle = document.getElementById('quizTitle').value;
+            let totalQuestions = document.getElementById("totalQuestionsDropdown").value;
+            let questionTimer = document.getElementById("timerDropdown").value;
+    
+            if (quizChoiceID === '-1'){
+                newTestTitle = 'No Quiz Selected';
+                totalQuestions = 1;
+                questionTimer = 10;
+            }
+            console.log(newTestTitle)
+            await setLiveTest(quizChoiceID);
+            try {
+                const condition = await setSettings(quizChoiceID, newTestTitle, questionTimer, totalQuestions);
+                if (condition == 1){
+                    alert("Settings saved successfully!");
+                    closeSettings();
+                }
+            } catch (error){
+                alert("Error editing settings.")
+            }
+        }
+        async function setLiveTest(id){
+            try {
+                const response = await fetch(`http://localhost:3000/set/test/${id}`, {
+                    method: 'PUT',
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        async function setSettings(id, newTitle, newTimer, newQuestionNum){
+            try {
+                const response = await fetch(`http://localhost:3000/test/size/${id}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const testSize = parseInt(data.test_size, 10);
+                if (testSize < newQuestionNum) {
+                    alert(`The number of questions cannot be set to a value greater than the number of questions that are in the test. Total Questions cannot be set greater than ${testSize}.`);
+                    return 0;
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+            try {
+                // Send a PUT request to the server with the updated timer value
+                const response = await fetch(`http://localhost:3000/set/settings/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ testTitle: newTitle, timer: newTimer, questionNum: newQuestionNum}), 
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to edit settings');
+                }
+                const result = await response.json();
+                console.log('Settings edited successfully:', result);
+                renderAllQuizBanks();
+            } catch (error) {
+                console.error('Error editing settings:', error);
+            }
+        }
+        async function fetchLiveTest() {
+            try {
+                const response = await fetch('http://localhost:3000/get/live/test');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return data.testID; 
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        async function fetchTests(){
+            try {
+                const response = await fetch('http://localhost:3000/test/data');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }            
+                const something = await response.json();
+                const data = something.data;               
+                const quizMap = data.reduce((acc, quiz) => {
+                    if (!acc[quiz.testID]) {
+                        acc[quiz.testID] = {
+                            testTitle: quiz.testTitle,
+                            questionNum: quiz.questionNum,
+                            timer: quiz.timer
+                        };
+                    }
+                    return acc;
+                }, {});
+                return quizMap;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+    </script>
+<!-- JavaScript for edit and delete buttons in the quiz table -->
+<script>
+    function closeEdit() {
+        const overlay = document.querySelector('.edit-overlay');
+        if (overlay) overlay.remove();
+    }
+</script>
+<script>
+    function checkForOpenSettingsFlag() {
+        if (sessionStorage.getItem('openSettings') === 'true') {
+            sessionStorage.removeItem('openSettings');
+            openSettings();
+        }
+    }
+    window.addEventListener('DOMContentLoaded', checkForOpenSettingsFlag);
+</script>
+<script>
+function renderQuizzes() {
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = '';
+    quizzes.forEach(quiz => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${quiz.id}</td>
+            <td>${quiz.title}</td>
+            <td>${quiz.answer}</td>
+            ${quiz.options.map(option => `<td>${option}</td>`).join('')}
+            <td><button onclick="editQuiz(${quiz.id})">Edit</button></td>
+            <td><button onclick="deleteQuiz(${quiz.id})">Delete</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+</script>
+<script> 
+    // Add additional JavaScript to handle quiz bank switching and creation
+function switchQuizBank() {
+    const selectedBank = document.getElementById('quizBankDropdown').value;
+    const quizzes = quizBanks[selectedBank] || []; // Update this logic to handle multiple quiz banks
+    renderQuizzes(quizzes);
+}
+function createNewQuizBank() {
+    const newBankName = prompt("Enter a name for the new Quiz Bank:");
+    if (newBankName) {
+        quizBanks[newBankName] = [];
+        const dropdown = document.getElementById('quizBankDropdown');
+        const option = document.createElement('option');
+        option.value = newBankName;
+        option.textContent = newBankName;
+        dropdown.appendChild(option);
+        dropdown.value = newBankName;
+        renderQuizzes(quizBanks[newBankName]);
+    }
+}
+</script>
+<script>
+    async function fetchQuestions() {
+        try {
+            const response = await fetch('http://localhost:3000/all/questions');
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const questionsByQuizId = data.reduce((acc, question) => {
+                if (!acc[question.testid]) {
+                    acc[question.testid] = [];
+                }
+                acc[question.testid].push(question);
+                return acc;
+            }, {});
+            return questionsByQuizId;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+    async function fetchTests(){
+        try {
+            const response = await fetch('http://localhost:3000/test/data');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const something = await response.json();
+            const data = something.data;
+            const quizMap = data.reduce((acc, quiz) => {
+                if (!acc[quiz.testID]) {
+                    acc[quiz.testID] = {
+                        testTitle: quiz.testTitle,
+                        questionNum: quiz.questionNum,
+                        timer: quiz.timer
+                    };
+                }
+                return acc;
+            }, {});
+            return quizMap;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+    let quizBanks;
+    let quizBankTitles;
+    // Function to render all quiz banks
+    async function renderAllQuizBanks() {
+        quizBanks = await fetchQuestions();
+        quizBankTitles = await fetchTests();
+        const noQuizzesContainer = document.querySelector('.no-quizzes-container');
+        if (Object.keys(quizBanks).length > 0) {
+            noQuizzesContainer.style.display = 'none';
+            Object.keys(quizBanks).sort().forEach((bankName) => {
+                renderQuizBank(bankName, quizBanks[bankName]);
+            });
+        } else {
+            noQuizzesContainer.style.display = 'block';
+        }
+        
+        const container = document.getElementById('quizBankTablesContainer');
+        container.innerHTML = '';
+        Object.keys(quizBanks).sort().forEach((bankName) => {
+            renderQuizBank(bankName, quizBanks[bankName]);
+        });
+        
+    }
+    // Function to render a single quiz bank
+    function renderQuizBank(bankName, quizzes) {
+        const container = document.getElementById('quizBankTablesContainer');
+        // Create the quiz bank container
+        const bankContainer = document.createElement('div');
+        bankContainer.classList.add('container');
+        bankContainer.id = `container-${bankName}`; // Add a unique ID for the quiz bank
+        const bankNumber = bankName.replace('quizBank', '');
+        bankContainer.innerHTML = `
+            <h2>Quiz Bank ${quizBankTitles[bankNumber].testTitle} 
+                <button onclick="deleteQuizBank('${bankName}')" class="action-cell button" style="margin-left: 10px; width: 140px;">Delete Bank</button>
+                <button onclick="toggleMinimize('container-${bankName}')" class="action-cell button minimize-btn" style="width: 140px;">Minimize</button>
+            </h2>
+        `;
+        const table = document.createElement('table');
+        table.classList.add('quiz-bank-table');
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Answer</th>
+                    <th>Option 1</th>
+                    <th>Option 2</th>
+                    <th>Option 3</th>
+                    <th>Option 4</th>
+                    <th>Option 5</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        `;
+        const tableBody = document.createElement('tbody');
+        quizzes.forEach((quiz) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${quiz.questionID}</td>
+                <td>${quiz.questionTitle}</td>
+                <td>${quiz.correctAns}</td>
+                <td>${quiz.correctAns}</td>
+                <td>${quiz.option1}</td>
+                <td>${quiz.option2}</td>
+                <td>${quiz.option3}</td>
+                <td>${quiz.option4}</td>
+                <td><button onclick="editQuizBank('${bankName}', ${quiz.questionID})">Edit</button></td>
+                <td><button onclick="deleteQuestion('${quiz.questionID}')">Delete</button></td>
+            `;
+            tableBody.appendChild(row);
+        });
+        table.appendChild(tableBody);
+        // Wrap the table in a content container for toggling
+        const quizContent = document.createElement('div');
+        quizContent.id = `quiz-content-${bankName}`;
+        quizContent.appendChild(table);
+        bankContainer.appendChild(quizContent);
+        container.appendChild(bankContainer);
+    }
+// Function to create a new quiz bank with incremented number
+function createNewQuizBank() {
+const newBankNumber = getNextBankNumber();  // Function finds the next available bank number
+const newBankName = `quizBank${newBankNumber}`;
+quizBanks[newBankName] = [];  // Initialize new bank as an empty array
+renderAllQuizBanks();  // Re-render all quiz banks to show the new one
+saveQuizBanks();       // Save the new quiz bank setup to localStorage
+}
+// Function to find the next available quiz bank number
+function getNextBankNumber() {
+    let i = 1;
+    while (quizBanks[`quizBank${i}`]) {  // Checks if a bank with the current number exists
+        i++;
+    }
+    return i;
+}
+// Function to delete an entire quiz bank
+// when implementing this function that if they are deleting this quiz bank to look at the tables
+// TESTS, LIVE, QUESTIONS 
+async function deleteQuizBank(bankName) {
+    const testTitle = quizBankTitles[bankName].testTitle;
+    if (confirm(`Are you sure you want to delete ${testTitle}?`)) {
+        delete quizBanks[bankName]; 
+        try {
+            await deleteTestBank(bankName);
+            /*
+            const bankContainer = document.getElementById(`container-${bankName}`);
+            if (bankContainer) {
+                bankContainer.remove();
+            }
+            */
+            alert('Succesfully deleted quiz bank');
+            renderAllQuizBanks();
+        } catch (error) {
+            console.error(`Error deleting the quiz bank ${bankName}:`, error);
+            alert('There was an error deleting the quiz bank. Please try again later.');
+        }
+    }
+}
+    function editQuizBank(bankName, id) {
+        const quiz = quizBanks[bankName].find(q => q.questionID == id);
+        if (!quiz) return;
+        const options = [
+            quiz.correctAns,
+            quiz.option1 || '',
+            quiz.option2 || '',
+            quiz.option3 || '',
+            quiz.option4 || ''
+        ]
+        const overlay = document.createElement('div');
+        overlay.className = 'edit-overlay';
+        overlay.innerHTML = `
+            <div class="edit-container">
+                <h3>Edit Question</h3>
+                <input type="text" id="questionInput" value="${quiz.questionTitle}" placeholder="Enter your question here" required>
+                <div class="answers-container">
+                    <h3>Answers</h3>
+                    ${options.map((option, index) => `
+                        <div class="answer-wrapper">
+                            <span>${index + 1}.</span>
+                            <input type="text" id ="choice${index}" value="${option}" class="answer-input"  >
+                            <input type="checkbox" id = option${index} class="correct-checkbox" ${index === 0 ? 'checked' : ''} onclick="toggleCheckbox(this)">
+                            <label>Correct</label>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="action-buttons-container">
+                    <button onclick="saveQuizBanks(${id})">Save</button>
+                    <button onclick="closeEdit()">Cancel</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    }
+    //unclickes all the other checkboxes in the edit window when different checkbox is clicked in the edit screen
+    function toggleCheckbox(checkbox) {
+        const checkboxes = document.querySelectorAll('.correct-checkbox');
+        checkboxes.forEach((cb) => {
+            if (cb !== checkbox) {
+                cb.checked = false;
+            }
+        });
+    }
+    //saves the edited question in the database 
+    async function saveQuizBanks(id) {
+        const overlay = document.querySelector('.edit-overlay');
+        const updatedTitle = overlay.querySelector('#questionInput').value;
+        const updatedOptions = Array.from(overlay.querySelectorAll('.answer-input')).map(input => input.value);
+        console.log(updatedTitle);
+        console.log(updatedOptions);
+        console.log(updatedOptions.length)
+        let corAns = '';
+        let options = [];
+        for (let i = 0; i < 5; i++) {
+            if (document.getElementById(`option${i}`).value) {
+                let check = document.getElementById(`option${i}`);
+                if (check.checked) {
+                    corAns = document.getElementById(`choice${i}`).value;
+                } else {
+                    let choiceValue = document.getElementById(`choice${i}`).value;
+                    if (choiceValue !== '') {
+                        options.push(choiceValue);
+                    }
+                }
+            }
+        }
+        //makes sure a correct answer has been chosen
+        if (!corAns){
+            alert("A corret answer checkbox must be chosen and its respected option field must be filled");
+            return;
+        }
+        question = {
+            questionText: updatedTitle,
+            correctAnswer: corAns,
+            optionOne: options[0] || '',
+            optionTwo: options[1] || '',
+            optionThree: options[2] || '',
+            optionFour: options[3] ||''
+        }
+        console.log(question);
+        async function confirmEdit(){
+            try {
+                await editQuestion(id, question);
+                closeEdit();
+                alert('Quiz updated successfully');
+                renderAllQuizBanks();
+            } catch(error) {
+                alert('Quiz failed to update');
+            }
+        }
+        await confirmEdit();
+    }
+    const editQuestion = async (id, updatedQuestionInfo) => {
+        try {
+            // Send a PUT request to the server with the question's id and updated information
+            const response = await fetch(`http://localhost:3000/edit/question/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedQuestionInfo), // Pass the updated question data as the request body
+            });
+            // Check if the response is okay
+            if (!response.ok) {
+                throw new Error('Failed to edit question');
+            }
+            // Handle the response data (e.g., a success message)
+            const result = await response.json();
+            console.log('Question edited successfully:', result);
+        } catch (error) {
+            console.error('Error editing question:', error);
+        }
+    };
+    async function deleteQuestion(id){
+        if (confirm('Are you sure you want to delete this question?')) {
+            try {
+                const response = await fetch(`http://localhost:3000/delete/question/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to delete question');
+                }
+                const result = await response.json();
+                if (result.message === '1') {
+                    alert('Question deleted successfully!');
+                    renderAllQuizBanks();
+                } else {
+                    alert('Failed to delete question. If error persist please send contact message.');
+                }
+            } catch (error) {
+                console.error('Error deleting question:', error);
+            } 
+        }
+    }
+    async function deleteTestBank(testID){
+        try {
+            const response = await fetch(`http://localhost:3000/test/${testID}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete test');
+            }
+            let result = await response.json();
+            if(parseInt(result.liveTestID, 10) === parseInt(testID, 10)){
+                //if the deleted test is the live test set the live test to -1 
+                const noLiveTest = -1;
+                try {
+                    const response3 = await fetch(`http://localhost:3000/set/test/${noLiveTest}`, {
+                        method: 'PUT',
+                    });
+                    if (!response3.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response3.json();
+                    console.log(data.message);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+            console.log(result.message)
+        } catch (error){
+            console.error('Error deleting quiz bank:', error);
+        }
+    }
+</script>
+<script>
+    function toggleMinimize(containerId) {
+        const bankContainer = document.getElementById(containerId);
+        const quizContent = bankContainer.querySelector('[id^="quiz-content"]'); // Select the quiz content div
+        if (quizContent.style.display === 'none') {
+            quizContent.style.display = 'block';
+        } else {
+            quizContent.style.display = 'none';
+        }
+    }
+</script>
+<script>
+    //localStorage.clear();
+</script>
+<script src="quizbank.js"></script>
+</body>
+</html>

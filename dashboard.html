@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Standard Favicon for most browsers -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <!-- Apple Touch Icon (for iOS and macOS) -->
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <!-- Android Chrome Icon (for Android devices) -->
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <!-- Microsoft Tile Icon for Windows (optional) -->
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <!-- CSS styling for the page -->
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        body {
+        font-family: 'Lato', Arial, sans-serif;
+        margin: 0;
+        font-weight: 400;
+        min-height: 100vh;
+        background: linear-gradient(120deg, #A0BEC9, #7E7C7C); /* Softer colors */
+        color: #333; /* More readable and professional color */
+        line-height: 1.8; /* Increased for better readability */
+        letter-spacing: 0.5px;
+        font-weight: 400;
+        }
+        h3 {
+            margin-top: 10px;
+        }
+        .quiz-form {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        select:focus, input[type="text"]:focus {
+            border-color: #639fab;
+            box-shadow: 0 0 5px rgba(99, 159, 171, 0.5);
+        }
+        .answers-container, .quiz-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .answer-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .answer-number {
+            font-weight: bold;
+        }
+        .answer-input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .answer-input:focus {
+            border-color: #639fab;
+            box-shadow: 0 0 5px rgba(99, 159, 171, 0.5);
+        }
+        .correct-checkbox {
+            margin-left: 10px;
+        }
+        .highlight {
+            border: 8px solid #3D2C2E;
+            padding: 5px;
+            border-radius: 30px;
+        }
+        .bold-text {
+            font-weight: bold;
+        }
+        .logout-container {
+            text-align: center;
+            padding: 10px 10px;
+        }
+        .logout-btn, .settings-btn {
+            background-color: #3D2C2E;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .logout-btn:hover, .logout-btn:focus, .settings-btn:hover, .settings-btn:focus {
+            background-color: #639fab;
+            outline: 2px solid #3D2C2E;
+        }
+        .action-buttons-container {
+            position: sticky;
+            bottom: 0;
+            background-color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            z-index: 10;
+        }
+        .action-buttons-container button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 30px;
+            background-color: #3D2C2E;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .action-buttons-container button:hover, .action-buttons-container button:focus {
+            background-color: #639fab;
+            outline: 2px solid #3D2C2E;
+        }
+        #answers, #quizzes {
+            width: 50%; /* Set a reduced width for the dropdown (adjust as needed) */
+            max-width: 200px; /* Optional: Set a maximum width */
+        }
+        .delete-btn {
+            background-color: #D9534F; /* Bootstrap Danger Color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .delete-btn:hover {
+            background-color: #C9302C; /* Darker shade for hover */
+        }
+        /*steven is adding this for functionality purposes*/
+        .quiz-container {
+            display: flex;
+            justify-content: center; /* Horizontally center the dropdown */
+            align-items: center;     /* Vertically center if the height is fixed or the container has height */
+            margin-top: 20px;         /* Optional: Add margin to position it nicely */
+        }
+</style>
+</head>
+<body>
+<!-- Sidebar navigation -->
+<div class="flex-container">
+    <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+        <!-- Close button for sidebar -->
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <!-- Sidebar page links -->
+                        <br><br><br><br>
+                        <a href="index.html">Home</a><br>
+                        <a href="login.html">Login</a><br>
+                        <a href="about.html">About</a><br>
+                        <a href="credits.html">Credits</a><br>
+                        <a href="contact.html">Contact</a><br>
+        <!-- Toggle button for light/dark mode -->
+        <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+            <span id="light-mode-label">Light Mode</span>
+            <input type="checkbox" id="theme-toggle-checkbox">
+            <span id="dark-mode-label">Dark Mode</span>
+        </div>
+    </div>
+        <!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+        <!-- Main content -->
+        <main>
+    <section class="hero">
+            <!-- Logout Button -->
+            <div class="logout-container">
+                <h1>Admin Dashboard - Quiz Management</h1>
+                <div class="button-container">
+                    <button id="logoutButton" class="logout-btn">Logout</button>
+                    <button id="settingsButton" class="settings-btn" onclick="openQuizBankWithSettings()">Settings</button>
+                </div>
+            </div>
+            <div class="quiz-container">
+                <h3>Adding Questions to</h3>
+                <select name="quizzes" id="quizzes">
+                    <option value="-1">New Quiz</option>
+                </select>
+            </div>
+            <!-- Admin Dashboard Section -->           
+            <div class="container quiz-form"> 
+                <h3 style="text-align: left;">Question 1</h3>
+                <input type="text" id="questionInput" placeholder="Enter your question here" required>
+                <!-- Answers heading and select dropdown on the same line -->
+                <div class="answers-container">
+                    <h3>Answers</h3>
+                    <select name="answers" id="answers" disabled>
+                        <option value="">Select number of answers</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <!-- Container for dynamically generated answer fields -->
+                <div id="answerFieldsContainer"></div>
+                <!-- Container for dynamically generated questions -->
+                <div id="questionsContainer"></div>
+                <!-- Buttons to always be visible -->
+                <div id="actionButtonsContainer" class="action-buttons-container">
+                    <button type="button" onclick="addQuestion()">Add Question</button>
+                    <button type="button" onclick="submitQuestion()">Submit Question(s)</button>
+                    <button id="quizBankButton" type="button">Quiz Bank</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+        <!-- Footer Section with Social Media Icons -->
+        <footer>
+            <div class="footer">
+                <div class="social-icons">
+                    <!-- Social media links with icons -->
+                    <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a> <!-- Twitter -->
+                    <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a> <!-- Facebook -->
+                    <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a> <!-- LinkedIn -->
+                    <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a> <!-- Instagram -->
+                    <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a> <!-- GitHub -->
+                </div>
+                <!-- Designed by Project Alpha text -->
+                <div class="footer-text"> Designed by Project Alpha, 2024   
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- JavaScript functions to control sidebar behavior -->
+    <script>
+        // Open sidebar by expanding width and shifting main content
+        function openNav() {
+            document.getElementById("leftSidebar").style.width = "250px"; // Sidebar width
+            document.getElementById("main").style.marginLeft = "250px"; // Adjust main content margin
+        }
+        // Close sidebar by resetting width and main content margin
+        function closeNav() {
+            document.getElementById("leftSidebar").style.width = "0"; // Hide sidebar
+            document.getElementById("main").style.marginLeft = "0"; // Reset margin
+        } 
+    // Check saved theme on load and apply it
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+            document.getElementById('theme-toggle-checkbox').checked = savedTheme === 'dark';
+        }
+    });
+    // Toggle theme and save preference
+    function toggleTheme() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    }
+    // Add event listener to the checkbox
+    document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleTheme);
+    </script>
+    <script>
+        document.getElementById("settingsButton").addEventListener("click", function() {
+        // Redirects to quizbank.html and targets the settings button by ID
+        window.location.href = "quizbank.html#quizbankSettingsButton";
+    });
+    </script>
+<!-- JavaScript for enabling answers dropdown and dynamic answer fields -->
+<script>
+    const quizDropdown = document.getElementById('quizzes');
+    async function fillQuizDropdown(){
+        const tests = await fetchTests();
+        const liveTest = await fetchLiveTest();
+        for (const [testID, testDetails] of Object.entries(tests)) {
+            const option = document.createElement('option');
+            option.value = testID; 
+            if (option.value === "-1"){
+                continue;
+            }
+            option.textContent = testDetails.testTitle; 
+            if (parseInt(testID, 10) === liveTest) {
+                option.selected = true;
+            }
+            quizDropdown.appendChild(option);
+        }
+        handleDropdownChange();
+    }
+    fillQuizDropdown();
+    const container = document.createElement('div'); 
+    function handleDropdownChange() {
+        const selectedValue = quizDropdown.value;
+        if (selectedValue === "-1") {
+            // Create the text box if it doesn't already exist
+            if (!container.querySelector('input')) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'Enter new quiz title';
+                input.id = 'newQuizTitle';
+                container.appendChild(input);
+                quizDropdown.parentNode.insertBefore(container, quizDropdown.nextSibling);
+            }
+        } else {
+            const input = container.querySelector('input');
+            if (input) {
+                input.remove();
+            }
+        }
+    }
+    quizDropdown.addEventListener('change', handleDropdownChange);
+    const previousAnswers = {};  // Object to store existing answers by field index
+    document.getElementById("questionInput").addEventListener("input", function() {
+        const answerDropdown = document.getElementById("answers");
+        answerDropdown.disabled = !this.value.trim();
+    });
+    document.getElementById("answers").addEventListener("change", function() {
+        const answerCount = parseInt(this.value, 10);
+        const container = document.getElementById("answerFieldsContainer");
+        // Save current values in previousAnswers
+        document.querySelectorAll(".answer-input").forEach((input, index) => {
+            previousAnswers[index + 1] = input.value;
+        });
+            // Clear and recreate answer fields based on the selected count
+            container.innerHTML = "";
+            for (let i = 1; i <= answerCount; i++) {
+                const answerWrapper = document.createElement("div");
+                answerWrapper.classList.add("answer-wrapper");
+                const answerNumber = document.createElement("span");
+                answerNumber.classList.add("answer-number");
+                answerNumber.textContent = `${i}.`;
+                const answerInput = document.createElement("input");
+                answerInput.type = "text";
+                answerInput.name = `answer${i}`;
+                answerInput.classList.add("answer-input");
+                answerInput.required = true;
+                // Restore previous answer if it exists
+                if (previousAnswers[i]) {
+                    answerInput.value = previousAnswers[i];
+                }
+                const correctCheckbox = document.createElement("input");
+                correctCheckbox.type = "checkbox";
+                correctCheckbox.classList.add("correct-checkbox");
+                //steven added id here
+                correctCheckbox.id = `correct-checkbox${i}`
+                const correctLabel = document.createElement("label");
+                correctLabel.textContent = "Correct answer";
+                correctCheckbox.addEventListener("change", function() {
+                    // Remove bold styling and highlights from all answer fields
+                    document.querySelectorAll(".correct-checkbox").forEach(cb => {
+                        cb.checked = false;
+                        cb.closest(".answer-wrapper").classList.remove("highlight");
+                        cb.closest(".answer-wrapper").querySelector(".answer-input").classList.remove("bold-text");
+                    });
+                    // Apply bold styling and highlight only to the selected answer
+                    this.checked = true;
+                    answerWrapper.classList.add("highlight");
+                    answerInput.classList.add("bold-text");
+                });
+                answerWrapper.appendChild(answerNumber);
+                answerWrapper.appendChild(answerInput);
+                answerWrapper.appendChild(correctCheckbox);
+                answerWrapper.appendChild(correctLabel);
+                container.appendChild(answerWrapper);
+            }
+        });
+    let questionCount = 1;
+    function addQuestion() {
+        if (questionCount >= 10) {
+            alert("You can only add up to 10 questions.");
+            return;
+        }
+        questionCount++;
+        const questionsContainer = document.getElementById("questionsContainer");
+        // Create a new div for the question
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question-item");
+        questionDiv.id = `question${questionCount}`; // Unique ID for each question
+        // Add question HTML content
+        questionDiv.innerHTML = `
+            <h3>Question ${questionCount}</h3>
+            <input type="text" id="questionInput${questionCount}" placeholder="Enter your question here" required>
+            <div class="answers-container">
+                <h3>Answers</h3>
+                <select name="answers${questionCount}" id="answers${questionCount}">
+                    <option value="">Select number of answers</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div id="answerFieldsContainer${questionCount}"></div>
+            <button type="button" onclick="deleteQuestion(${questionCount})" class="delete-btn">Delete Question</button>
+        `;
+        // Append the new question to the container
+        questionsContainer.appendChild(questionDiv);
+        // Add event listener for the dropdown to create answer fields
+        document.getElementById(`answers${questionCount}`).addEventListener("change", function() {
+            const answerCount = parseInt(this.value, 10);
+            const container = document.getElementById(`answerFieldsContainer${questionCount}`);
+            container.innerHTML = "";
+            for (let i = 1; i <= answerCount; i++) {
+                const answerWrapper = document.createElement("div");
+                answerWrapper.classList.add("answer-wrapper");
+                const answerNumber = document.createElement("span");
+                answerNumber.classList.add("answer-number");
+                answerNumber.textContent = `${i}.`;
+                const answerInput = document.createElement("input");
+                answerInput.type = "text";
+                answerInput.name = `answer${questionCount}_${i}`;
+                answerInput.classList.add("answer-input");
+                answerInput.required = true;
+                const correctCheckbox = document.createElement("input");
+                correctCheckbox.type = "checkbox";
+                correctCheckbox.classList.add("correct-checkbox");
+                //steven added this below
+                correctCheckbox.id = `correct-checkbox${questionCount}_${i}`;
+                const correctLabel = document.createElement("label");
+                correctLabel.textContent = "Correct answer";
+                correctCheckbox.addEventListener("change", function() {
+                    // Remove bold styling and highlights from all answer fields in this question
+                    container.querySelectorAll(".correct-checkbox").forEach(cb => {
+                        cb.checked = false;
+                        cb.closest(".answer-wrapper").classList.remove("highlight");
+                        cb.closest(".answer-wrapper").querySelector(".answer-input").classList.remove("bold-text");
+                    });
+                    // Apply bold styling and highlight only to the selected answer
+                    this.checked = true;
+                    answerWrapper.classList.add("highlight");
+                    answerInput.classList.add("bold-text");
+                });
+                answerWrapper.appendChild(answerNumber);
+                answerWrapper.appendChild(answerInput);
+                answerWrapper.appendChild(correctCheckbox);
+                answerWrapper.appendChild(correctLabel);
+                container.appendChild(answerWrapper);
+            }
+        });
+    }
+    function deleteQuestion(questionId) {
+    // Select the question div by its unique ID
+    const questionDiv = document.getElementById(`question${questionId}`);
+    if (questionDiv) {
+        questionDiv.remove(); // Remove the question div from DOM
+        questionCount--; // Decrement the question count
+        updateQuestionNumbers(); // Update question numbers
+    }
+}
+function updateQuestionNumbers() {
+    const questionItems = document.querySelectorAll(".question-item");
+    questionItems.forEach((item, index) => {
+        const questionNumber = index + 2; // Adjust index for numbering
+        item.querySelector("h3").textContent = `Question ${questionNumber}`;
+        item.id = `question${questionNumber}`;
+    });
+}
+    function openQuizBankWithSettings() {
+        sessionStorage.setItem('openSettings', 'true');
+        window.location.href = 'quizbank.html';
+    }
+    async function submitQuestion(){
+        let questionTitle = [];
+        questionTitle.push(document.getElementById('questionInput').value);
+        let correctAnswers = [];
+        let allOptions = [];
+        let options = [];
+        for (let i = 1; i <= 5; i++){
+            let elements = document.getElementsByName(`answer${i}`);
+            if (elements.length > 0) {
+                let isChecked = document.getElementById(`correct-checkbox${i}`);
+                if (isChecked.checked){
+                    correctAnswers.push(elements[0].value);
+                } else options.push(elements[0].value); // Push the first element if it exists
+            } else {
+                options.push(null)
+            }
+        }
+        allOptions.push(options)
+        for (let i = 2; i <= questionCount; i++){
+            questionTitle.push(document.getElementById(`questionInput${i}`).value)
+            let temp = []
+            for (let j = 1; j<=5; j++){
+                let elements = document.getElementsByName(`answer${i}_${j}`);
+                if (elements.length > 0) {
+                    let isChecked = document.getElementById(`correct-checkbox${i}_${j}`)
+                    if (isChecked.checked){
+                        correctAnswers.push(elements[0].value);
+                    } else temp.push(elements[0].value); // Push the first element if it exists
+                } else {
+                    temp.push(null)
+                }
+            }
+            allOptions.push(temp)
+        }
+        let questions= [];
+        for (let i = 0; i < questionCount; i++) {
+            // Create a question object
+            let question = {
+                questionText: questionTitle[i],
+                correctAnswerText: correctAnswers[i],
+                answer1Text: allOptions[i][0] || '',
+                answer2Text: allOptions[i][1] || '',
+                answer3Text: allOptions[i][2] || '',
+                answer4Text: allOptions[i][3] || '',
+                answer5Text: allOptions[i][4] || '',
+            };
+            questions.push(question);
+        }
+        console.log(questions)
+        if (questions.length !== correctAnswers.length){
+            alert ("All questions must have a correct answer selected")
+            return;
+        }
+        const jeffery = document.getElementById("newQuizTitle");
+        let jefferyObject;
+        if (jeffery){
+            jefferyObject = {
+                title: jeffery.value
+            }
+            console.log(jeffery.value)
+        }
+        try {
+            if (quizDropdown.value !== "-1"){
+                await sendQuestions(quizDropdown.value, questions);
+            } else {
+                if (jeffery.value==="") {
+                    alert ("When creating a new quiz please add a Quiz Name");
+                    return;
+                }
+                const newTestID = await sendTest(jefferyObject);
+                if (newTestID) {
+                    await sendQuestions(newTestID, questions);
+                }
+            }
+            alert("Question(s) have been added");
+            location.reload(true);
+        } catch (error){
+            alert("Question could not be added. If error persist please send contact message.");
+        }
+    }
+    async function sendTest(testInfo){
+        try{
+            const response = await fetch('http://localhost:3000/add/test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(testInfo), 
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(data.id);
+            return data.id;
+        } catch(err){
+            console.error('Error:', err);
+        }
+    }
+    async function sendQuestions(testID, questions){
+        try{
+            const response = await fetch(`http://localhost:3000/add/questions/${testID}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({questions}), 
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(data.message);
+        } catch(err){
+            console.error('Error:', err);
+        }
+    }
+    async function fetchLiveTest() {
+        try {
+            const response = await fetch('http://localhost:3000/get/live/test');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data.testID; 
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+    async function fetchTests(){
+        try {
+            const response = await fetch('http://localhost:3000/test/data');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const something = await response.json();
+            const data = something.data;
+            const quizMap = data.reduce((acc, quiz) => {
+                if (!acc[quiz.testID]) {
+                    acc[quiz.testID] = {
+                        testTitle: quiz.testTitle,
+                        questionNum: quiz.questionNum,
+                        timer: quiz.timer
+                    };
+                }
+                return acc;
+            }, {});
+            return quizMap;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+</script>
+<script src="dashboard.js"></script>
+</body>
+</html>

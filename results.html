@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Bank - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Favicons and App Icons -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <style>
+        /* Add any specific styles for the results page */
+        #results {
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="results">
+        <h2>Quiz Results</h2>
+        <p>Your Score: <span id="score">0</span> out of <span id="total-questions">0</span></p>
+        <button onclick="goBackToQuiz()">Take Another Quiz</button>
+    </div>
+        <!-- Sidebar navigation -->
+        <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+            <!-- Close button for sidebar -->
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <!-- Sidebar page links -->
+                    <a href="index.html">Home</a><br>
+                    <a href="login.html">Login</a><br>
+                    <a href="about.html">About</a><br>
+                    <a href="credits.html">Credits</a><br>
+                    <a href="contact.html">Contact</a><br>
+    <!-- Toggle button for light/dark mode -->
+    <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+        <span id="light-mode-label">Light Mode</span>
+        <input type="checkbox" id="theme-toggle-checkbox">
+        <span id="dark-mode-label">Dark Mode</span>
+    </div>
+</div>
+<!-- Footer Section with Social Media Icons -->
+<footer>
+    <div class="footer">
+        <div class="social-icons">
+            <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="footer-text">Designed by Project Alpha, 2024</div>
+    </div>
+</footer>
+<script>
+    // Retrieve the score from session storage
+    document.getElementById('score').innerText = sessionStorage.getItem('score') || '0';
+    document.getElementById('total-questions').innerText = sessionStorage.getItem('totalQuestions') || '0';
+    function goBackToQuiz() {
+        window.location.href = "quiz.html"; // Redirect back to the quiz page
+    }
+</script>
+    </body>
+    </html>

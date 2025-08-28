@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Standard Favicon for most browsers -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <!-- Apple Touch Icon (for iOS and macOS) -->
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <!-- Android Chrome Icon (for Android devices) -->
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <!-- Microsoft Tile Icon for Windows (optional) -->
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <style>
+        /* Light Mode (default) */
+    body {
+        background-color: #ffffff;
+        color: #333;
+    }
+    /* Dark Mode */
+    html.dark body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+    html.dark .sidebar {
+        background-color: #1e1e1e;
+        color: #bdbdbd;
+    }
+    html.dark .container.about-section {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+        border-color: #444;
+    }
+    html.dark .team-grid .member {
+        background-color: #333;
+        color: #fafafa;
+        border-color: #444;
+    }
+    html.dark .footer {
+        background-color: #1e1e1e;
+        color: #bdbdbd;
+    }
+    </style>
+</head>
+<body>
+<!-- Sidebar navigation -->
+<div class="flex-container">
+    <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+        <!-- Close button for sidebar -->
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <!-- Sidebar page links -->
+                        <br><br><br><br>
+                        <a href="index.html">Home</a><br>
+                        <a href="login.html">Login</a><br>
+                        <a href="about.html">About</a><br>
+                        <a href="credits.html">Credits</a><br>
+                        <a href="contact.html">Contact</a><br>
+        <!-- Toggle button for light/dark mode -->
+        <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+            <span id="light-mode-label">Light Mode</span>
+            <input type="checkbox" id="theme-toggle-checkbox">
+            <span id="dark-mode-label">Dark Mode</span>
+        </div>
+    </div>
+<!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="Images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+        <!-- Main content -->
+        <main>
+    <section class="hero">
+    <!-- About Us Section -->
+    <div class="container about-section">
+        <h3>About Us</h3>
+        <h1>Meet the team.</h1>
+        <!-- Team Members Grid -->
+        <div class="team-grid">
+            <!-- Team Member 1: Angelo Angelidis-->
+            <div class="member" onclick="toggleDetails(this)">
+                <img src="Images/Angelo.jpg" alt="Angelo Angelidis" class="team-photo">
+                <h4>Angelo Angelidis</h4>
+                <p class="short-qualifications">Documentation</p>
+                <div class="full-qualifications">
+                    <h4>Educational Qualifications</h4>
+                        <li>California State University, Sacramento</li>
+                        <li>Folsom Lake College</li>
+                    <h4>Professional Skills</h4>
+                        <li>Customer Service</li>
+                        <li>Training Services</li>
+                    <h4>Technical Skills</h4>
+                        <li>Basic IT</li>
+                        <li>Computer Proficiency</li>
+                        <li>Problem-solving</li>
+                        <li>Analytics</li>
+                    <h4>Awards/Recognition</h4>
+                        <li>N/A</li>
+                    <h4>Work Experience</h4>
+                        <li>Customer Service Industry (2020 - Current)</li>
+                </div>
+                <span class="arrow">↓</span>
+            </div>
+            <!-- Team Member 2: Steven Inouye -->
+            <div class="member" onclick="toggleDetails(this)">
+                <img src="Images/Steven.jpg" alt="Steven Inouye" class="team-photo">
+                <h4>Steven Inouye</h4>
+                <p class="short-qualifications">Back-End Developer</p>
+                <div class="full-qualifications">
+                    <h4>Educational Qualifications</h4>
+                        <li>California State University, Sacramento (August 2023 - Present)</li> 
+                    <h4>Professional Skills</h4>
+                        <li>Customer Service</li>
+                        <li>Business network planning</li>
+                        <li>Problem Solving</li>
+                    <h4>Technical Skills</h4>
+                        <li>Java</li>
+                        <li>JavaScript</li>
+                        <li>NodeJS</li>
+                        <li>Data Recovery</li>
+                        <li>Server/Network Deployment</li>
+                        <li>Virus Removal</li>
+                        <li>Computer and Mobile Repair</li>
+                    <h4>Awards/Recognition</h4>
+                        <li>Machine Learning Specialization Certificate</li>
+                    <h4>Work Experience</h4>
+                        <li>KW Systems — Technician (October 2022 - August 2024)</li>
+                </div>
+                <span class="arrow">↓</span>
+            </div>
+            <!-- Team Member 3: Tatiana Neville -->
+            <div class="member" onclick="toggleDetails(this)">
+                <img src="Images/Tatiana.jpg" alt="Tatiana Neville" class="team-photo">
+                <h4>Tatiana Neville</h4>
+                <p class="short-qualifications">Project Manager<br>Back-End Developer</p>
+                <div class="full-qualifications">
+                    <h4>Educational Qualifications</h4>
+                        <li>California State University, Sacramento (January 2023 - Present)</li>
+                        <li>My-Le’s (September 2022 - December 2022)</li>
+                        <li>Carrington College (March 2019 - December 2020)</li>
+                    <h4>Professional Skills</h4>
+                        <li>Strong customer service orientation and client conflict resolution</li>
+                        <li>Highly motivated, quick learner, and a team player</li>
+                        <li>Experienced in managing efficient workflow and improving clinic procedures</li>
+                    <h4>Technical Skills</h4>
+                        <li>Confident in animal handling, restraint, and sedation procedures</li>
+                        <li>Skilled in using needles, syringes, and medication preparation</li>
+                        <li>Proficient with patient intake/discharge, EMR, and client billing</li>
+                        <li>Medication dispensing, dose calculations, and client instruction</li>
+                    <h4>Awards/Recognition</h4>
+                        <li>RVT Certification – Awarded August 2021</li>
+                        <li>Manicurist License – Awarded February 2023</li>
+                    <h4>Work Experience</h4>
+                        <li>Nailtel — Licensed Manicurist (July 2023 - Present)<br>
+                            Performed manicures, pedicures, implement disinfection/sterilization, and maintenance.</li>
+                        <li>Broadway Veterinary Hospital, Sacramento — Registered Veterinary Technician (June 2021 - November 2021)<br>
+                            Performed patient intake, lab sample preparation, anesthesia monitoring, dental cleaning, radiographs, and patient sedation.</li>
+                        <li>Banfield, Sacramento — Student Ambassador (February 2020 - December 2020)<br>
+                            Coordinated with Carrington College to facilitate student placements, handled inquiries, and supported externship opportunities.</li>
+                        <li>Sacramento SPCA, Sacramento — Veterinary Assistant (June 2019 - October 2021)<br>
+                            Scheduled and roomed patients, provided client education, dispensed medications, and managed high-volume Vaccine Clinic workflow.</li>
+                        <li>All Health Family Care, San Jose — Office Manager (September 2018 - February 2020)<br>
+                            Supervised staff, handled patient complaints, and enhanced clinic efficiency by implementing new procedures.</li>
+                        <li>San Jose Family Care, San Jose — Lab Specialist (August 2016 - September 2018)<br>
+                            Conducted lab sample processing, including PRP preparation, urinalysis, and blood sample handling.</li>
+                </div>
+                <span class="arrow">↓</span>
+            </div>
+            <!-- Team Member 4: Devin Wynne -->
+            <div class="member" onclick="toggleDetails(this)">
+                <img src="Images/Devin.jpg" alt="Devin Wynne" class="team-photo">
+                <h4>Devin Wynne</h4>
+                <p class="short-qualifications">Front-End Developer</p>
+                <div class="full-qualifications">
+                    <h4>Educational Qualifications</h4>
+                        <li>Cosumnes River College (A.S. in Computer Science)</li>
+                        <li>California State University, Sacramento</li>
+                    <h4>Professional Skills</h4>
+                        <li>Sales and Customer Service</li>
+                        <li>Onboarding/Mentorship</li>
+                        <li>Fleet Management (Vehicle Maintenance Oversight, Compliance Knowledge, Logistics Coordination)</li>
+                        <li>Data Entry</li>
+                        <li>Confidentiality Management</li>
+                        <li>Product Knowledge</li>
+                        <li>Inventory Management</li>
+                        <li>Quality Control</li>
+                        <li>Record Keeping</li>
+                        <li>Time-Lapse Project Coordination</li>
+                        <li>Technical Writing/Documentation</li>
+                        <li>Documentation Management</li>
+                        <li>Cross-Functional Collaboration</li>
+                    <h4>Technical Skills</h4>
+                        <li>SAP Data Management Software</li>
+                        <li>Data Governance</li>
+                        <li>Master Data Management</li>
+                        <li>Spreadsheet Management</li>
+                        <li>Vehicle Maintenance</li>
+                        <li>Basic IT Troubleshooting</li>
+                    <h4>Awards/Recognition</h4>
+                        <!-- Awards content, if available -->
+                    <h4>Work Experience</h4>
+                        <li>Original Paint & Equipment</li>
+                        <li>Department of Water Resources (Division of Business Services: Administration and Transportation)</li>
+                </div>
+                <span class="arrow">↓</span>
+            </div>
+            <!-- Team Member 5: Joshua Zamora -->
+            <div class="member" onclick="toggleDetails(this)">
+                <img src="Images/Joshua.jpg" alt="Joshua Zamora" class="team-photo">
+                <h4>Joshua Zamora</h4>
+                <p class="short-qualifications">Front-End Developer</p>
+                <div class="full-qualifications">
+                    <h4>Educational Qualifications</h4>
+                        <li>California State University, Sacramento (2023 - Present)</li>
+                        <li>Sierra Community College, Rocklin – (Summer 2024)</li>
+                        <li>Embry-Riddle Aeronautical University – A.S. in Engineering Fundamentals (2021 - 2023)</li>
+                        <li>American Military University (2016 - 2018)</li>
+                        <li>Community College of the Air Force (2008 - 2019)</li>
+                    <h4>Professional Skills</h4>
+                        <li>Cross-functional Team Leadership</li>
+                        <li>Project Planning</li>
+                        <li>Budget Management</li>
+                        <li>Aircraft Maintenance & Inspection</li>
+                        <li>Safety management & Workplace Safety Compliance</li>
+                        <li>Research & Development</li>
+                        <li>Proposal Writing & Drafting</li>
+                        <li>Records & Inventory Management</li>
+                        <li>Collaborative & Virtual Teamwork</li>
+                        <li>Business & Customer Relationship Management</li>
+                        <li>Interpersonal Communication & Leadership Development</li>
+                        <li>Organizational Risk Management</li>
+                        <li>Project Manager</li>
+                    <h4>Technical Skills</h4>
+                        <li>Security Controls (NIST SP 800-53)</li>
+                        <li>Organizational Risk Management (NIST SP 800-37)</li>
+                        <li>Threat & Vulnerability Management, Malware Detection</li>
+                        <li>Security Operations Center (SOC) Operations</li>
+                        <li>Firewall Configuration and Management (EDU-210)</li>
+                        <li>Network Security and Cybersecurity Fundamentals (Palo Alto, EDU-210)</li>
+                        <li>Privacy Controls and Data Governance</li>
+                        <li>Microsoft Azure Fundamentals</li>
+                        <li>Palo Alto Cloud Security Fundamentals</li>
+                        <li>Network Address Translation (NAT)</li>
+                        <li>Network Security Fundamentals</li>
+                        <li>Drone Maintenance, GPS Navigation, Flight Safety, Flight Planning</li>
+                        <li>Aircraft Inspection and Maintenance, Mechanical Troubleshooting</li>
+                        <li>Aircraft Accident Investigation</li>
+                        <li>NX Siemens CAD, Fusion 360, AutoCAD</li>
+                        <li>Certified SOLIDWORKS Associate (Mechanical Design)</li>
+                        <li>3D Printing, Materials Science</li>
+                        <li>Java, C#, MATLAB</li>
+                        <li>Visual Studio, IBM SPSS Statistics, Microsoft Office</li>
+                        <li>Blockchain Architecture</li>
+                    <h4>Awards/Recognition</h4>
+                        <li>Dean’s Honor List, California State University, Sacramento – Spring 2024</li>
+                        <li>Leslie and Anita Harper Alumni Scholarship, California State University, Sacramento – Fall 2024</li>
+                        <li>Golden Key Honor Society, California State University, Sacramento – January 2024</li>
+                        <li>Dean’s List, Embry-Riddle Aeronautical University – Spring 2020, Fall 2020, Winter 2021, Spring 2021, Summer 2021, Fall 2021, Winter 2022, Spring 2022, Summer 2022, Fall 2022, Winter 2023</li>
+                        <li>Alpha Sigma Lambda Honor Society, Embry-Riddle Aeronautical University – May 2021</li>
+                    <h4>Work Experience</h4>
+                        <li>DeadLock Security – Intern (2024 - Present)</li>
+                        <li>NASA L'SPACE MCA – Student Safety Officer, Research & Development (January 2022 - April 2022)</li>
+                        <li>NASA L'SPACE NPWEE Academy – Student Principal Investigator (September 2021 - December 2021)</li>
+                        <li>United States Air Force – Aircraft Maintenance Supervisor (January 2008 - October 2019)</li>
+                </div>
+                <span class="arrow">↓</span>
+            </div>
+        </div> <!-- Closing tag for .team-grid -->
+    </div> <!-- Closing tag for .about-section -->
+</section>
+</main>
+</div> <!-- Closing tag for #main -->
+<!-- Footer Section with Social Media Icons -->
+<footer>
+    <div class="footer">
+        <div class="social-icons">
+            <!-- Social media links with icons -->
+            <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a> <!-- Twitter -->
+            <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a> <!-- Facebook -->
+            <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a> <!-- LinkedIn -->
+            <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a> <!-- Instagram -->
+            <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a> <!-- GitHub -->
+        </div>
+        <!-- Designed by Project Alpha text -->
+        <div class="footer-text">
+            Designed by Project Alpha, 2024
+        </div>
+    </div>
+</footer>
+<!-- JavaScript to handle the sidebar and team member details toggle -->
+<script>
+    // Sidebar toggle functions
+    function openNav() {
+        document.getElementById("leftSidebar").style.width = "250px"; // Sidebar width
+        document.getElementById("main").style.marginLeft = "250px"; // Adjust main content margin
+    }
+    function closeNav() {
+        document.getElementById("leftSidebar").style.width = "0"; // Hide sidebar
+        document.getElementById("main").style.marginLeft = "0"; // Reset margin
+    }
+ // Theme toggle functionality
+    function toggleTheme() {
+        const htmlElement = document.documentElement; // Use <html> element for consistency
+        const isCurrentlyDarkMode = htmlElement.classList.contains("dark");
+        // Toggle the theme
+        if (isCurrentlyDarkMode) {
+            htmlElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        } else {
+            htmlElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        }
+        // Sync the checkbox state
+        document.getElementById('theme-toggle-checkbox').checked = !isCurrentlyDarkMode;
+    }
+    // Apply the saved theme on page load
+    document.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        const isDarkMode = savedTheme === "dark";
+        // Apply the theme
+        document.documentElement.classList.toggle("dark", isDarkMode);
+        // Sync the checkbox state
+        const checkbox = document.getElementById('theme-toggle-checkbox');
+        if (checkbox) {
+            checkbox.checked = isDarkMode;
+        }
+    });
+    // Attach the toggle event to the checkbox
+    document.getElementById("theme-toggle-checkbox").addEventListener("change", toggleTheme);
+</script>
+<!-- Full Qualifications Toggle Script -->  
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const members = document.querySelectorAll('.member');
+        members.forEach(member => {
+            const arrow = member.querySelector('.arrow');
+            const fullQualifications = member.querySelector('.full-qualifications');
+            member.addEventListener('click', function() {
+                const currentlyVisible = document.querySelector('.full-qualifications.show');
+                if (currentlyVisible && currentlyVisible !== fullQualifications) {
+                    currentlyVisible.classList.remove('show');
+                    currentlyVisible.previousElementSibling.classList.remove('rotate');
+                }
+                fullQualifications.classList.toggle('show');
+                arrow.classList.toggle('rotate');
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Character encoding --> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <!-- Responsive Web Design -->
+    <title>Login - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Standard Favicon for most browsers -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <!-- Apple Touch Icon (for iOS and macOS) -->
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <!-- Android Chrome Icon (for Android devices) -->
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <!-- Microsoft Tile Icon for Windows (optional) -->
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <style>
+    /* Style for the Select Role dropdown to match input fields */
+    #roleSelect, 
+    #username, 
+    #password {
+    width: 100%;
+    padding: 12px;                /* Match padding */
+    font-size: 18px;              /* Set font size */
+    border: 2px solid #3D2C2E;    /* Border style */
+    border-radius: 30px;           /* Rounded corners */
+    margin-bottom: 10px;          /* Space between fields */
+    box-sizing: border-box;       /* Ensure padding does not affect width */
+    }
+    #roleSelect {
+    background-color: #f9f9f9;    /* Match input field background */
+    color: #333;                  /* Text color */
+    appearance: none;             /* Remove default dropdown arrow styling */
+    }
+    #roleSelect:focus,
+    #username:focus,
+    #password:focus {
+        border-color: #639FAB;        /* Highlight border on focus */
+        outline: none;                /* Remove default focus outline */
+    }
+    /* Optional: add custom styling for dark mode */
+    body.dark-mode #roleSelect,
+    body.dark-mode #username,
+    body.dark-mode #password {
+        background-color: #333;
+        color: #fafafa;
+        border-color: #444;
+    }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper"> <!-- KEEPS THE FOOTER AT THE BOTTOM -->
+    <!-- Sidebar navigation -->
+    <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+        <!-- Close button for sidebar -->
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <!-- Sidebar page links -->
+                <br><br><br><br>
+                <a href="index.html">Home</a><br>
+                <a href="login.html">Login</a><br>
+                <a href="about.html">About</a><br>
+                <a href="credits.html">Credits</a><br>
+                <a href="contact.html">Contact</a><br>
+        <!-- Toggle button for light/dark mode -->
+        <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+            <span id="light-mode-label">Light Mode</span>
+            <input type="checkbox" id="theme-toggle-checkbox">
+            <span id="dark-mode-label">Dark Mode</span>
+        </div>
+    </div>
+<!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+        <!-- Main content -->
+        <main>
+            <section class="hero">
+            <!-- Login Form with Role Selection -->
+            <div class="main container">
+                <img src="images/quiz-logo.png" alt="Quizineer Logo" style="width: 130px; height: 120px;">
+                <h1>Login</h1>
+                <h3>Select your role and enter your credentials</h3>
+                <form id="loginForm">
+                    <!-- Required Role Selection Dropdown -->
+                    <select id="roleSelect" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="user">User</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                    <!-- Username and Password Fields -->
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                    <button type="submit">Login</button>
+                </form>
+            <!--<p><a href="#" onclick="requestPasswordReset()">Forgot Password?</a></p> -->
+            </div>
+            </section>
+        </main>
+        </div>
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer">
+                <div class="social-icons">
+                    <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a>
+                </div>
+                <div class="footer-text">Designed by Project Alpha, 2024</div>
+            </div>
+        </footer>
+        <!-- JavaScript to handle login and role-based redirection -->
+        <script>
+            // Functions to open and close the sidebar
+            function openNav() {
+                document.getElementById("leftSidebar").style.width = "250px";
+                document.getElementById("main").style.marginLeft = "250px";
+            }
+            function closeNav() {
+                document.getElementById("leftSidebar").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+            }
+            // Check saved theme on load and apply it
+            window.addEventListener('DOMContentLoaded', () => {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+                    document.getElementById('theme-toggle-checkbox').checked = savedTheme === 'dark';
+                }
+            });
+// Function to toggle dark mode and save preference
+function toggleTheme() {
+    const isDarkMode = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+}
+// Apply saved theme on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const theme = localStorage.getItem('theme');
+    const isDarkMode = theme === 'dark';
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    document.getElementById('theme-toggle-checkbox').checked = isDarkMode;
+});
+// Add event listener to toggle theme
+document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleTheme);
+        </script>
+        <script src="login.js"></script>
+</body>
+</html>
+-->

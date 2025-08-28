@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive Web Design -->
+    <title>Thank You - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Standard Favicon for most browsers -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <!-- Apple Touch Icon (for iOS and macOS) -->
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">   
+    <!-- Android Chrome Icon (for Android devices) -->
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">   
+    <!-- Microsoft Tile Icon for Windows (optional) -->
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- Sidebar navigation -->
+        <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+            <!-- Close button for sidebar -->
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <!-- Sidebar page links -->
+                    <br><br><br><br>
+                    <a href="index.html">Home</a><br>
+                    <a href="login.html">Login</a><br>
+                    <a href="about.html">About</a><br>
+                    <a href="credits.html">Credits</a><br>
+                    <a href="contact.html">Contact</a><br>
+    <!-- Toggle button for light/dark mode -->
+    <div class="theme-toggle">
+        <span id="light-mode-label">Light Mode</span>
+        <input type="checkbox" id="theme-toggle-checkbox">
+        <span id="dark-mode-label">Dark Mode</span>
+    </div>
+</div>
+<!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+        <!-- Main content -->
+        <main>
+    <section class="hero">
+    <!-- Thank You Message Section -->
+    <div class="container thank-you-message">
+        <h1>Thank You for Contacting Us!</h1>
+        <p>We have received your message, and a customer representative will contact you shortly.</p>
+    </div>
+</section>
+</main>
+</div>
+<!-- Footer Section with Social Media Icons -->
+<footer>
+    <div class="footer">
+        <div class="social-icons">
+            <!-- Social media links with icons -->
+            <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a> <!-- Twitter -->
+            <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a> <!-- Facebook -->
+            <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a> <!-- LinkedIn -->
+            <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a> <!-- Instagram -->
+            <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a> <!-- GitHub -->
+        </div>
+        <!-- Designed by Project Alpha text -->
+        <div class="footer-text">
+            Designed by Project Alpha, 2024
+        </div>
+    </div>
+</footer>
+<!-- JavaScript for sidebar and theme toggle functionality -->
+<script>
+    // Open sidebar by expanding width and shifting main content
+    function openNav() {
+        document.getElementById("leftSidebar").style.width = "250px"; // Sidebar width
+        document.getElementById("main").style.marginLeft = "250px"; // Adjust main content margin
+    }
+    // Close sidebar by resetting width and main content margin
+    function closeNav() {
+        document.getElementById("leftSidebar").style.width = "0"; // Hide sidebar
+        document.getElementById("main").style.marginLeft = "0"; // Reset margin
+    }
+    // Check saved theme on load and apply it
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+            document.getElementById('theme-toggle-checkbox').checked = savedTheme === 'dark';
+        }
+    });
+    // Toggle theme and save preference
+    function toggleTheme() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    }
+    // Add event listener to the checkbox
+    document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleTheme);
+</script>
+</body>
+</html>
+

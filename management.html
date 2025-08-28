@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive Web Design -->
+    <title>User Management - Quizineer</title>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS file for page styling -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Standard Favicon for most browsers -->
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="Images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="Images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <!-- Apple Touch Icon (for iOS and macOS) -->
+    <link rel="apple-touch-icon" href="Images/apple-touch-icon.png">
+    <!-- Android Chrome Icon (for Android devices) -->
+    <link rel="icon" sizes="192x192" href="Images/android-chrome-192x192.png">
+    <link rel="icon" sizes="512x512" href="Images/android-chrome-512x512.png">
+    <!-- Microsoft Tile Icon for Windows (optional) -->
+    <meta name="msapplication-TileImage" content="Images/android-chrome-192x192.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <!-- Additional CSS for Table Styling -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 2px solid #3d2c2e;
+            margin-top: 20px;
+        }
+        th, td {
+    padding: 10px;
+    border: 1px solid #639FAB;
+    background-color: #f5edf0;
+    }
+    th {
+        background-color: #3d2c2e;
+        color: white;
+        text-align: center;
+    }
+    /* Even row styling */
+    tr:nth-child(even) td {
+        background-color: #e0d7d9;
+    }
+
+    td {
+        vertical-align: middle;
+    }
+    tr:nth-child(even) td {
+        background-color: #e0d7d9;
+    }
+    .logout-container {
+        text-align: center;
+        padding: 20px;
+    }
+    .logout-btn, .settings-btn, .dashboard-btn {
+        background-color: #3D2C2E;
+        color: white;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        margin-right: 10px;
+    }
+    .logout-btn:hover, .settings-btn:hover, .dashboard-btn:hover {
+        background-color: #639fab;
+    }
+    .settings-btn:focus {
+        outline: 2px solid #3D2C2E;
+    }
+    .edit-overlay, .settings-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .edit-container, .settings-container {
+        background: #639fab;
+        padding: 20px;
+        border-radius: 30px;
+        width: 600px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+    }
+    .action-buttons-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .action-cell {
+        display: inline-flex;
+        gap: 10px;
+    }
+    .action-cell button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #3D2C2E;
+        color: white;
+        transition: background-color 0.3s;
+        display: inline-block;
+        margin: 0; /* Ensure no added margin throws off alignment */
+        line-height: normal; /* Matches text alignment within the button */
+    }
+    .action-cell button:hover {
+        background-color: #639FAB;
+    }
+    /* Flex container to center buttons in cell */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .action-buttons button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #3D2C2E;
+        color: white;
+        transition: background-color 0.3s;
+    }
+    .action-buttons button:hover {
+        background-color: #639FAB;
+    }
+    /* Adjusted padding for Edit and Delete buttons for vertical alignment */
+    .edit-btn, .delete-btn {
+        padding: 10px 15px; /* Increase top/bottom padding */
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #3D2C2E;
+        color: white;
+        transition: background-color 0.3s;
+        line-height: 1;
+        display: inline-block;
+        vertical-align: middle; /* Aligns with text */
+    }
+    /* Hover effect for buttons */
+    .edit-btn:hover, .delete-btn:hover {
+        background-color: #639FAB;
+    }
+    /* Dark Mode for Main Content Container */
+    body.dark-mode .container {
+        background-color: #1e1e1e; /* Dark background for readability */
+        color: #fafafa; /* Light text for contrast */
+    }
+    /* Dark Mode Table Styling */
+    body.dark-mode table {
+        background-color: #333; /* Darker table background */
+        color: #fafafa; /* Light text for table content */
+    }
+    body.dark-mode th {
+        background-color: #444; /* Darker header row background */
+        color: #ffffff; /* Light header text */
+    }
+    body.dark-mode td {
+        background-color: #2a2a2a; /* Darker cell background */
+        color: #fafafa; /* Light cell text */
+    }
+    /* Adjust Even Row Styling for Dark Mode */
+    body.dark-mode tr:nth-child(even) td {
+        background-color: #3a3a3a; /* Slightly lighter dark background for even rows */
+    }
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 30px;
+        width: 400px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        text-align: center;
+    }
+    .modal-content h2 {
+        margin-bottom: 20px;
+    }
+    .modal-content label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .modal-content input {
+        width: 90%;
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+    }
+    .modal-content button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #3D2C2E;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+    .modal-content button:hover {
+        background-color: #639FAB;
+    }
+    .close-button {
+        display: inline-block;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #639FAB; 
+        color: white; 
+        border: none; 
+        border-radius: 50%; 
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px; 
+    }
+    /* Modal content styling */
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    /* Form group for aligning labels and inputs */
+    .form-group {
+        display: flex;
+        flex-direction: column; /* Stack label and input vertically */
+        width: 100%; /* Full width for the form */
+        margin-bottom: 15px; /* Add spacing between fields */
+    }
+    /* Label styling */
+    .form-group label {
+        font-weight: bold; /* Make labels bold */
+        margin-bottom: 5px; /* Space between label and input */
+        text-align: left; /* Align text to the left */
+        width: 100%; /* Ensure labels span full width */
+    }
+    /* Input field styling */
+    .form-group input {
+        width: calc(100% - 10px); /* Adjust to fit inside container */
+        padding: 8px; /* Add padding for readability */
+        font-size: 16px; /* Ensure consistent font size */
+        border: 1px solid #ccc; /* Add border for visibility */
+        border-radius: 30px; /* Rounded corners */
+    }
+    /*steven is adding this for functionality purposes*/
+    .quiz-container {
+        display: flex;
+        justify-content: center; 
+        align-items: center;   
+        margin-top: 20px;        
+    }
+    select, input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    select:focus, input[type="text"]:focus {
+        border-color: #639fab;
+        box-shadow: 0 0 5px rgba(99, 159, 171, 0.5);
+    }
+    #answers, #quizzes {
+        width: 50%; 
+        max-width: 200px;
+    }
+    .all-users-container {
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        gap: 10px;
+    }
+    .all-users-container h3 {
+        margin-right: 10px;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- Sidebar navigation -->
+        <div id="leftSidebar" class="sidebar" style="width: 0; transition: width 0.3s; overflow-y: auto;">
+            <!-- Close button for sidebar -->
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <!-- Sidebar page links -->
+                    <br><br><br><br>
+                    <a href="index.html">Home</a><br>
+                    <a href="login.html">Login</a><br>
+                    <a href="about.html">About</a><br>
+                    <a href="credits.html">Credits</a><br>
+                    <a href="contact.html">Contact</a><br>
+            <!-- Toggle button for light/dark mode -->
+            <div class="theme-toggle" style="padding: 15px; margin-top: 20px;">
+                <span id="light-mode-label">Light Mode</span>
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span id="dark-mode-label">Dark Mode</span>
+            </div>
+        </div>
+        <!-- Main content area -->
+<div id="main" style="transition: margin-left 0.3s;">
+    <!-- Header with logo and navigation button -->
+    <header>
+        <button class="openbtn" onclick="openNav()">☰ <img src="images/quiz-logo.png" alt="Quiz Logo" style="width: 120px; vertical-align: middle;"></button>
+    </header>
+        <!-- Main content -->
+        <main>
+    <section class="hero">
+        <!-- User Management Container-->
+        <div class="logout-container">
+            <button id="logoutButton">Logout</button>
+            <button id="generateUserButton">Generate User</button>
+            <button id="dashboardButton" onclick="window.location.href='dashboard.html'">Dashboard</button>
+            <button id="quizbankButton" onclick="window.location.href='quizbank.html'">Quizbank</button>
+        </div>
+    <!-- User Management Table -->
+    <div class="container">
+        <h2>User Management</h2>
+        <div class="all-users-container">
+            <h3>Currently Viewing</h3>
+            <select name="quizzes" id="quizzes">
+                <option value="-1" selected>User Information</option>
+            </select>
+        </div>
+        <table id="user-management-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Send Email</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            <!-- Rows populated here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeAddModal()">×</span>
+            <h2>Add User</h2>
+            <div class="form-group">
+                <label for="createUsername">Username:</label>
+                <input type="text" id="createUsername" />
+            </div>
+            <div class="form-group">
+                <label for="createFirstName">First Name:</label>
+                <input type="text" id="createFirstName" />
+            </div>
+            <div class="form-group">
+                <label for="createLastName">Last Name:</label>
+                <input type="text" id="createLastName" />
+            </div>
+            <div class="form-group">
+                <label for="createEmail">Email:</label>
+                <input type="email" id="createEmail" />
+            </div>
+            <button onclick="saveUserAdd()">Save Changes</button>
+        </div>
+    </div>
+    <div id="editUserModal" class="modal">
+        
+    </div>
+</section>
+</main>
+</div>
+        <!-- Footer Section with Social Media Icons -->
+        <footer>
+            <div class="footer">
+                <div class="social-icons">
+                    <a href="https://x.com/131Weenieh10256" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61566879842954" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/in/weenie-huts-975451332/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/csc131project/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/weeniehutjrs-131" target="_blank"><i class="fab fa-github"></i></a>
+                </div>
+                <div class="footer-text">Designed by Project Alpha, 2024</div>
+            </div>
+        </footer>
+    </div>
+    <!-- JavaScript for sidebar, theme toggle, logout, and settings functionality -->
+    <script>
+        function openNav() {
+            document.getElementById("leftSidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+        function closeNav() {
+            document.getElementById("leftSidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+        // Check saved theme on load and apply it
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+                document.getElementById('theme-toggle-checkbox').checked = savedTheme === 'dark';
+            }
+        });
+
+        let users = [];
+        let history;
+        window.addEventListener("DOMContentLoaded", async () => {
+            await loadUsersAndHistory();
+            await renderUserTable();
+            
+        });
+        async function loadUsersAndHistory(){
+            users = await fetchUsers();
+            history = await fetchHistory();
+        }
+        
+
+        // Toggle theme and save preference
+        function toggleTheme() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+        // Add event listener to the checkbox
+        document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleTheme);
+
+        const quizDropdown = document.getElementById('quizzes');
+        const userManagementTable = document.getElementById('user-management-table');
+
+        async function fillQuizDropdown(){
+            const tests = await fetchTests();
+            for (const [testID, testDetails] of Object.entries(tests)) {
+                const option = document.createElement('option');
+                option.value = testID; 
+                if (option.value === "-1"){
+                    continue;
+                }
+                option.textContent = testDetails.testTitle; 
+                quizDropdown.appendChild(option);
+            }
+        }
+        fillQuizDropdown();
+       
+        // Renders the user management table with data from `users` array
+        async function renderUserTable() {
+            const tableBody = document.getElementById("table-body");
+            tableBody.innerHTML = ""; // Clear existing rows
+
+            // Iterate directly over the users object
+            Object.values(users).forEach(user => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.firstname}</td>
+                    <td>${user.lastname}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit-btn" onclick="editUser('${user.userID}')">Edit</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="delete-btn" onclick="deleteUser('${user.userID}')">Delete</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="send-email-btn" onclick="sendEmail(${user.userID},'${user.email}')">Send Email</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        //note from steven. in this delete function it should delete the history of this test not the user
+        async function renderQuizHistoryTable(testID) {
+            const usersThatTookTest = history[testID];
+            console.log(usersThatTookTest);
+            const tableBody = document.getElementById("table-quiz-body");
+            tableBody.innerHTML = ""; 
+            if(usersThatTookTest){
+                usersThatTookTest.forEach(user => {
+                    const getUsername = users[user.userID].username;
+                    const getFirstName = users[user.userID].firstname;
+                    const getLastName = users[user.userID].lastname;
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${getUsername}</td>
+                        <td>${getFirstName}</td>
+                        <td>${getLastName}</td>
+                        <td>${user.score}</td>
+                        <td>${user.attempts}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="delete-btn" onclick="deleteTestHistory(${user.historyID}, ${testID})">Delete</button>
+                            </div>
+                        </td>
+                        
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+        async function deleteTestHistory(id, testID) {
+            if (confirm("Are you sure you want to delete this test attempt history? This action cannot be undone.")) {
+                console.log(id)
+                try {
+                    const response = await fetch(`http://localhost:3000/delete/test/${id}`, {
+                        method: 'DELETE'
+                    });
+                    if (!response.ok) {
+                        throw new Error('Failed to delete test');
+                    }
+                    const result = await response.json();
+                    
+                    alert("Test deleted successfully.");
+                    history = await fetchHistory();
+                    renderQuizHistoryTable(testID);
+                } catch (error) {
+                    console.error('Error deleting question:', error);
+                } 
+            }
+        }
+        quizDropdown.addEventListener('change', handleDropdownChange);
+        function handleDropdownChange() {
+            const selectedValue = quizDropdown.value;
+            if (selectedValue === "-1") {
+                userManagementTable.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>Send Email</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Rows populated here by JavaScript -->
+                    </tbody>
+                `;
+                renderUserTable();
+            } else {
+                userManagementTable.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Avg. Score</th>
+                            <th>Attempts</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-quiz-body">
+                        <!-- Rows populated here by JavaScript -->
+                    </tbody>
+                `;
+                renderQuizHistoryTable(selectedValue);
+
+            }
+        }
+        // Function to open the modal and populate user details
+        async function editUser(id) {
+            const asdffdas = document.getElementById("editUserModal");
+            asdffdas.innerHTML = 
+            `<div class="modal-content">
+                <span class="close-button" onclick="closeEditModal()">×</span>
+                <h2>Edit User</h2>
+                <div class="form-group">
+                    <label for="editUsername">Username:</label>
+                    <input type="text" id="editUsername" />
+                </div>
+                <div class="form-group">
+                    <label for="editFirstName">First Name:</label>
+                    <input type="text" id="editFirstName" />
+                </div>
+                <div class="form-group">
+                    <label for="editLastName">Last Name:</label>
+                    <input type="text" id="editLastName" />
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" />
+                </div>
+                <button onclick="saveUserEdits(${id})">Save Changes</button>
+            </div>`;
+            const user = users[id];
+            console.log(user)
+            if (user) {
+                currentEditUserId = id;
+                document.getElementById("editUsername").value = user.username;
+                document.getElementById("editFirstName").value = user.firstname;
+                document.getElementById("editLastName").value = user.lastname;
+                document.getElementById("editEmail").value = user.email;
+                document.getElementById("editUserModal").style.display = "flex";
+            } 
+            
+        }
+        // Function to close the modal
+        function closeEditModal() {
+            document.getElementById("editUserModal").style.display = "none";
+            currentEditUserId = null;
+        }
+        // Function to save user edits
+        async function saveUserEdits(id) {
+            const updatedUserInfo = {
+                username: document.getElementById("editUsername").value.trim(),
+                email: document.getElementById("editEmail").value.trim(),
+                firstname: document.getElementById("editFirstName").value.trim(),
+                lastname: document.getElementById("editLastName").value.trim()
+            };
+            for (const [key, value] of Object.entries(updatedUserInfo)) {
+                if (!value) {
+                    alert(`The ${key} field is required.`);
+                    return;
+                }
+            }
+            try {
+                const response = await fetch(`http://localhost:3000/edit/user/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedUserInfo),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to edit user');
+                }
+                const result = await response.json();
+                console.log('User edited successfully:', result);
+                alert('User updated successfully!'); 
+                closeEditModal();
+                await loadUsersAndHistory();
+                handleDropdownChange();
+            } catch (error) {
+                console.error('Error editing user:', error);
+                alert('An error occurred while updating the user.');
+            }
+        }
+
+        // Function to delete a user
+        async function deleteUser(id) {
+            if (confirm("Are you sure you want to delete this user? EVERY test this user has taken will be removed. This action cannot be undone.")) {
+                try {
+                    const response = await fetch(`http://localhost:3000/delete/user/${id}`, {
+                        method: 'DELETE'
+                    });
+                    if (!response.ok) {
+                        throw new Error('Failed to delete user');
+                    }
+                    const result = await response.json();
+                    
+                    alert("User deleted successfully.");
+                    await loadUsersAndHistory();
+                    renderUserTable();
+                } catch (error) {
+                    console.error('Error deleting question:', error);
+                } 
+            }
+        }
+        //function to get all the users and their information
+        async function fetchUsers() {
+            try {
+                const response = await fetch('http://localhost:3000/get/users/info');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const userMap = data.reduce((acc, user) => {
+                    acc[user.userID] = {
+                        userID: user.userID,
+                        username: user.username,
+                        email: user.email,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                    };
+                    return acc;
+                }, {});
+                console.log(userMap);
+                return userMap;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return {};
+            }
+        }
+
+        //function that gets everything in the history 
+        async function fetchHistory() {
+            try {
+                const response = await fetch('http://localhost:3000/get/history');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const quizMap = data.reduce((acc, quiz) => {
+                    if (!acc[quiz.testID]) {
+                        acc[quiz.testID] = []; 
+                    }
+                    acc[quiz.testID].push({
+                        historyID: quiz.historyID,
+                        userID: quiz.userID,
+                        score: quiz.score,
+                        attempts: quiz.attempts
+                    });
+                    return acc;
+                }, {});
+
+                console.log(quizMap);
+                return quizMap;
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        //function to get all of the test
+        async function fetchTests(){
+            try {
+                const response = await fetch('http://localhost:3000/test/data');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const something = await response.json();
+                const data = something.data;
+                const quizMap = data.reduce((acc, quiz) => {
+                    if (!acc[quiz.testID]) {
+                        acc[quiz.testID] = {
+                            testTitle: quiz.testTitle,
+                            questionNum: quiz.questionNum,
+                            timer: quiz.timer
+                        };
+                    }
+                    return acc;
+                }, {});
+                console.log(quizMap)
+                return quizMap;
+                
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        const sendEditUser = async (id, updatedUserInfo) => {
+            try {
+                const response = await fetch(`http://localhost:3000/edit/user/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedUserInfo), 
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to edit question');
+                }
+                const result = await response.json();
+                console.log('Question edited successfully:', result);
+            } catch (error) {
+                console.error('Error editing question:', error);
+            }
+        };
+        
+    </script>
+    <script>
+        // Generate User functionality
+        document.getElementById("generateUserButton").addEventListener("click", async function () {
+            document.getElementById("addUserModal").style.display = "flex";
+        });
+        // Function to close the modal
+        function closeAddModal() {
+            document.getElementById("addUserModal").style.display = "none";
+        }
+
+        async function saveUserAdd() {
+            const newUsername = document.getElementById("createUsername").value.trim();
+            const newEmail = document.getElementById("createEmail").value.trim();
+            const newFirstname = document.getElementById("createFirstName").value.trim();
+            const newLastname = document.getElementById("createLastName").value.trim();
+
+            if (!newUsername || !newEmail || !newFirstname || !newLastname) {
+                alert("Please fill in all fields before submitting.");
+                return; 
+            }
+            const newPassword = Math.random().toString(36).slice(-8);
+
+            const userInfo = {
+                username: newUsername, 
+                password: newPassword,
+                email: newEmail,
+                firstname: newFirstname,
+                lastname: newLastname
+            }
+            console.log(userInfo)
+            try {
+                const response = await fetch('http://localhost:3000/add/user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userInfo), 
+                });
+
+                if (!response.ok) {
+                    // Handle non-OK response status codes
+                    if (response.status === 409) {
+                        const data = await response.json();
+                        if (data.message === 'Username already exists') {
+                            alert("The username is already taken. Please choose a different one.");
+                        } else if (data.message === 'Email already exists') {
+                            alert("The email is already registered. Please use a different email address.");
+                        } else {
+                            alert("User could not be added due to a conflict. Please try again.");
+                        }
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                } else {
+                    const data = await response.json();
+                    console.log(data.message);
+                    users= await fetchUsers();
+                    renderUserTable(); 
+                    closeAddModal();
+                    alert("User information added successfully.");
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                alert("User could not be added due to an error. Please try again.");
+            }
+        }
+
+        async function sendEmail(userID, email) {
+            console.log(userID);
+            console.log(email);
+
+            // Generate a temporary password
+            const tempPassword = Math.random().toString(36).slice(-8);
+
+            try {
+                // Update the password in the database (sending tempPassword)
+                const response = await fetch(`http://localhost:3000/edit/user/password/${userID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password: tempPassword }), // Send the generated password
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to edit user');
+                }
+
+                const result = await response.json();
+                console.log('User password changed successfully:', result);
+
+                // Fetch user details to retrieve the username
+                const userDetailsResponse = await fetch(`http://localhost:3000/get/users/info`);
+                if (!userDetailsResponse.ok) {
+                    throw new Error('Failed to fetch user details');
+                }
+
+                const users = await userDetailsResponse.json();
+                const user = users.find((u) => u.userID === userID);
+                if (!user) {
+                    throw new Error(`User with ID ${userID} not found`);
+                }
+
+                const username = user.username; // Extract the username
+                console.log('Username retrieved:', username);
+
+                // Now send the email with the username and password
+                const emailResponse = await fetch('http://localhost:3002/send-new-password-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userID: userID,
+                        email: email,
+                        username: username, // Send the username here
+                        tempPassword: tempPassword, // Send the generated password here as well
+                    }),
+                });
+
+                if (!emailResponse.ok) {
+                    throw new Error('Failed to send email');
+                }
+
+                const emailResult = await emailResponse.json();
+                console.log(emailResult.message);
+
+                alert(`Email sent to ${email} with username: ${username} and password: ${tempPassword}`);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating the user.');
+            }
+        }
+
+    </script>
+    <script src="management.js"></script>
+</body>
+</html>
