@@ -1,0 +1,955 @@
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+/* Base styling for the body */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+body {
+    font-family: 'Lato', Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(120deg, #639fab, #7E7C7C); /* Softer colors */
+    color: #333; /* More readable and professional color */
+    line-height: 1.8; /* Increased for better readability */
+    letter-spacing: 0.5px;
+    font-weight: 400;
+}
+h1, h2, h3 {
+    font-weight: 700;
+}
+/* Sidebar Styling */
+.sidebar {
+    height: 100%;
+    width: 0; /* Ensures the sidebar is hidden when closed */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #3A3A3A;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    overflow-x: hidden; /* Prevents text overflow */
+    transition: width 0.5s ease; /* Smooth width transition */
+    z-index: 1000; /* Keeps sidebar above other elements */
+}
+.sidebar a {
+    padding: 10px 30px;
+    font-size: 22px;
+    color: #FFFFFF;
+    display: block;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.sidebar a:hover {
+    color: #91c7c1; /* Softer accent color for hover */
+}
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+}
+/* Button to Open Sidebar */
+.openbtn {
+    font-size: 20px;
+    background-color: #3D2C2E; /* Matches color palette */
+    color: #ffffff;
+    padding: 12px 20px; /* Slightly larger for better appearance */
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.openbtn img {
+    vertical-align: middle;
+    width: 120px;
+}
+.openbtn:hover {
+    background-color: #639fab; /* Softer hover color */
+    transform: scale(1.05);
+}
+#main {
+    transition: margin-left 0.7s;
+    padding: 20px;
+    margin-left: 0; /* Reset main margin when sidebar is closed */
+}
+/* Hero Section Styling */
+.hero {
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(120deg, #DDE6E9, #A0BEC9);
+    color: #3d2c2e;
+    border-radius: 30px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+}
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+/* Default (light mode) style for the h3 in the hero section */
+.hero h3 {
+    color: #3D2C2E; /* Default color for light mode */
+}
+/* Dark mode style for the h3 in the hero section */
+body.dark-mode .hero h3 {
+    color: #FFFFFF; /* White text in dark mode */
+}
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+.hero button {
+    font-size: 1em;
+    padding: 15px 25px; /* Larger padding for a modern look */
+    color: #ffffff;
+    background: #639FAB; /* Simple and consistent */
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Added shadow */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.hero button:hover {
+    background-color: #639fab; /* Softer hover color */
+    transform: translateY(-2px); /* Lifting effect */
+}
+/* Keyframe animation for hover effect */
+@keyframes cardHover {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+/* Feature Highlights Section */
+.features {
+    text-align: center;
+    padding: 100px 40px;
+    background-color: #ffffff;
+    color: #3d2c2e;
+}
+.features h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+.feature-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.feature-item {
+    width: 200px;
+    padding: 20px;
+    background-color: #639FAB;
+    color: white;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s;
+}
+.feature-item h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+.feature-item p {
+    font-size: 1em;
+}
+.feature-item:hover {
+    transform: scale(1.05);
+    background-color: #4d7a89;
+}
+/* Theme Toggle Styling */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+}
+/* Theme Toggle Labels */
+#light-mode-label, #dark-mode-label {
+    color: #FFFFFF;
+}
+#dark-mode-label {
+    color: #FFFFFF;
+    margin-left: 8px;
+}
+/* Toggle Switch */
+#theme-toggle-checkbox {
+    appearance: none;
+    width: 60px;
+    height: 30px;
+    background-color: #555;
+    border-radius: 30px;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+#theme-toggle-checkbox:checked {
+    background-color: #639FAB;
+}
+#theme-toggle-checkbox::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 30px;
+    transition: transform 0.4s ease;
+}
+#theme-toggle-checkbox:checked::after {
+    transform: translateX(26px);
+}
+/* Footer Styling */
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3A3A3A;
+    color: white;
+    padding: 40px; /* Increased padding for a cleaner layout */
+    flex-wrap: wrap;
+    gap: 20px;
+    text-align: center;
+}
+.footer .social-icons {
+    display: flex;
+    gap: 25px;
+}
+.footer .social-icons a {
+    color: #ffffff;
+    font-size: 24px; /* Increased icon size for better visibility */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer .social-icons a:hover {
+    color: #91c7c1; /* Softer hover color */
+}
+.footer-text {
+    color: #639fab;
+    font-size: 20px;
+}
+/* Responsive Footer Adjustments for Mobile */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .footer-text {
+        text-align: center; /* Center-align on smaller screens */
+        font-size: 14px;
+        margin-top: 15px;
+    }
+}
+/* Default (Light Mode) Styles */
+.container.about-section h3 {
+    color: #3D2C2E; /* Default color for "About Us" text */
+}
+/* About Us Container Full Width Styling */
+.container.about-section {
+    text-align: center;
+    width: 100%; /* Make container expand fully */
+    max-width: 100%; /* Optional: Set a max width for large screens */
+    margin: 0 auto; /* Center the container */
+    padding: 40px; /* Add padding for spacing */
+    background-color: #ffffff; /* White background color */
+    border-radius: 30px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    box-sizing: border-box; /* Include padding in total width and height */
+}
+/* Team Members Grid */
+.team-grid {
+    display: flex; /* Flexbox for alignment */
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    justify-content: space-around; /* Center the members in the row */
+    gap: 20px; /* Uniform gap between all members */
+    width: 100%; /* Full width of the container */
+    margin-top: 20px;
+}
+/* Individual Team Member Styling */
+.member {
+    flex: 1 1 calc(20% - 20px); /* Responsive width for five members in a row */
+    padding: 20px;
+    background-color: #639FAB;
+    border-radius: 30px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box; 
+}
+/* Responsive layout for medium and small screens */
+@media (max-width: 1200px) {
+    .team-grid {
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        justify-content: center;
+    }
+    .member {
+        width: 45%; /* Two columns on medium screens */
+    }
+    .features h2 {
+        font-size: 1.8em;
+    }
+}
+@media (max-width: 600px) {
+    .member {
+        width: 100%; /* Single column on small screens */
+    }
+}
+/* Default color for section headers */
+.member h4 {
+    color: #000; /* Black text by default */
+    transition: color 0.3s ease; /* Smooth transition */
+}
+/* Dark mode color for section headers */
+body.dark-mode .member h4 {
+    color: #fff; /* White text in dark mode */
+}
+/* Styling for Team Member Images */
+.member img {
+    width: 200px; /* Fixed width for images */
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Ensures consistent image cropping */
+    border-radius: 50%; /* Optional: Makes the image circular */
+}
+.member:hover {
+    background: linear-gradient(120deg, #639FAB, #3D2C2E);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.short-qualifications {
+    color: rgb(252, 251, 251);
+    font-size: 20px;
+    margin-top: 10px;
+}
+/* Full Qualifications Section */
+.full-qualifications {
+    display: none;
+    text-align: left;
+    background-color: #ffffff; /* White background color */
+    padding: 30px; /* Increased padding for better appearance */
+    border-radius: 30px;
+    margin-top: 10px;
+    width: auto; /* Expanded width for better appearance */
+    border: 2px solid #3d2c2e; /* White border within the moonstone border */
+}
+.full-qualifications.show {
+    display: block;
+}
+.arrow {
+    color: #3D2C2E;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 40px;
+    margin-top: 10px;
+    -webkit-transition: -webkit-transform 0.3s ease;
+    transition: -webkit-transform 0.3s ease;
+    -o-transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+}
+.rotate {
+    -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+}
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212; /* Improved readability */
+    color: #e0e0e0; /* Softer text for better contrast */
+}
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+    color: #bdbdbd; /* Slight contrast for readability */
+}
+body.dark-mode .footer {
+    background-color: #1e1e1e;
+    color: #bdbdbd;
+}
+body.dark-mode .container,
+body.dark-mode .team-grid .member {
+    background-color: #3d3d3d;
+    border-color: #444; /* Softer borders */
+}
+body.dark-mode .full-qualifications {
+    background-color: #3d3d3d;
+    color: #fafafa;
+    border-color: #fafafa;
+}
+body.dark-mode input,
+body.dark-mode textarea {
+    background-color: #333;
+    color: #fafafa;
+}
+/* Dark Mode for Quiz Info and Buttons */
+body.dark-mode #quiz-prompt,
+body.dark-mode #quizContainer,
+body.dark-mode #results {
+    background-color: #3d3d3d !important;
+    color: #fafafa !important;
+}
+body.dark-mode input::-webkit-input-placeholder, body.dark-mode textarea::-webkit-input-placeholder {
+    color: #ccc;
+}
+body.dark-mode input::-moz-placeholder, body.dark-mode textarea::-moz-placeholder {
+    color: #ccc;
+}
+body.dark-mode input:-ms-input-placeholder, body.dark-mode textarea:-ms-input-placeholder {
+    color: #ccc;
+}
+body.dark-mode input::-ms-input-placeholder, body.dark-mode textarea::-ms-input-placeholder {
+    color: #ccc;
+}
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #ccc;
+}
+body.dark-mode button {
+    background-color: #639fab !important;
+    color: #fafafa !important;
+}
+body.dark-mode button:hover {
+    background-color: #3d2c2e !important;
+}
+/* Dark Mode for Question and Answer Buttons */
+body.dark-mode #answer-buttons button {
+    background-color: #639fab !important;
+    color: #fafafa !important;
+    border: none;
+}
+body.dark-mode #answer-buttons button:hover {
+    background-color: #555 !important;
+}
+/* Credits Section Styling (Responsive Flexbox Layout with Uniform Padding) */
+.container.credits-section {
+    text-align: center; /* Center the title */
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 100%; /* Restrict maximum width */
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+/* Title Styling */
+.container.credits-section h1 {
+    font-size: 2.5em;
+    color: #3D2C2E;
+    margin-bottom: 20px; /* Space below the title */
+}
+/* Team Member Cards */
+.container.credits-section .member {
+    flex: 1 1 calc(20% - 20px); /* Responsive width for five members */
+    padding: 20px;
+    background-color: #639FAB;
+    border-radius: 30px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+/* Center-align the Credits heading in the credits-section */
+.credits-section h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+/* Team Member Images */
+.container.credits-section .member img {
+    width: 200px; /* Fixed size for images */
+    height: 200px; /* Fixed size for images */
+    object-fit: cover; /* Ensure the image scales properly */
+    border-radius: 50%; /* Make the image circular */
+}
+/* Team Member Name and Description */
+.container.credits-section .member h4 {
+    margin-top: 10px;
+    color: #3D2C2E;
+}
+
+.container.credits-section .member p {
+    color: #3D2C2E;
+}
+
+/* Hover Effects */
+.container.credits-section .member:hover {
+    background: linear-gradient(120deg, #639FAB, #3D2C2E);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .container.credits-section .member {
+        flex: 1 1 calc(33.33% - 20px); /* Three members per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .container.credits-section .member {
+        flex: 1 1 calc(50% - 20px); /* Two members per row */
+    }
+}
+
+@media (max-width: 500px) {
+    .container.credits-section .member {
+        flex: 1 1 100%; /* One member per row */
+    }
+}
+/* Styling for Form Containers (Admin Login, Contact Us) */
+.container {
+    max-width: 400px; /* Adjust as necessary */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+/* Form and Button Styling */
+.container input[type="text"],
+.container input[type="password"],
+.container input[type="email"],
+.container input[type="tel"],
+.container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border: 2px solid #3D2C2E;
+    border-radius: 30px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-transition: border-color 0.3s ease;
+    -o-transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease;
+}
+.container input[type="submit"],
+.container button {
+    background-color: #3D2C2E;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    border-radius: 30px;
+    margin-bottom: 60px; /* Increase this value for more space below the button */
+}
+.container input[type="submit"]:hover,
+.container button:hover {
+    background-color: #639fab;
+}
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .feature-list {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+    }
+    .feature-item {
+        width: 90%;
+    }
+    .hero h1 {
+        font-size: 2em;
+    }
+    .hero p {
+        font-size: 1em;
+    }
+    .footer-text {
+        font-size: 14px;
+        padding-right: 0px;
+    }
+}
+/* Admin Dashboard */
+.quiz-form button[type="button"] {
+    margin-bottom: 10px; /* Space below the Add Question button */
+}
+.quiz-form input[type="submit"] {
+    margin-top: 5px; /* Space above the Submit Quiz button */
+}
+.spaced-bottom {
+    margin-bottom: 20px; /* Adjust this value as necessary */
+}
+#logoutButton,
+#settingsButton {
+    background-color: #3D2C2E; /* Desired button background color */
+    color: #ffffff; /* Desired text color */
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#logoutButton:hover,
+#settingsButton:hover {
+    background-color: #639fab; /* Change to a different color on hover */
+}
+/* Quiz Bank Container Styling */
+.container {
+    max-width: 1200px; /* Limits width on larger screens */
+    margin: 20px auto; /* Centers container with margin on top and bottom */
+    padding: 20px;
+    background-color: #ffffff; /* White background for quiz bank */
+    border-radius: 30px; /* Rounded corners */
+    -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+    width: 90%; /* Ensures responsiveness on smaller screens */
+    overflow-x: auto; /* Allows horizontal scroll if needed */
+}
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 2px solid #3d2c2e;
+        margin-top: 20px;
+    }
+    th, td {
+        vertical-align: middle;
+        text-align: center;
+        padding: 10px;
+        background-color: #f5edf0;
+        border: 1px solid #639FAB;
+    }
+    th {
+        background-color: #3d2c2e;
+        color: white;
+    }
+    tr:nth-child(even) td {
+        background-color: #e0d7d9;
+    }
+    .logout-container {
+        text-align: center;
+        padding: 20px;
+    }
+    .logout-container button {
+    background-color: #3D2C2E; /* Set the button background */
+    color: white; /* Text color */
+    padding: 12px 20px; /* Padding for consistent size */
+    border: none; /* Remove borders */
+    border-radius: 30px; /* Rounded corners */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    margin-right: 10px; /* Spacing between buttons */
+}
+/* Remove margin from the last button to keep spacing clean */
+.logout-container button:last-child {
+    margin-right: 0;
+}
+/* Hover effect for all buttons */
+.logout-container button:hover {
+    background-color: #639fab; /* Lighter color on hover */
+}
+.logout-container {
+    display: flex; /* Arrange buttons in a row */
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Vertically align the buttons */
+    gap: 10px; /* Add consistent spacing between buttons */
+}
+    #logoutButton,
+#quizbankSettingsButton,
+#dashboardButton,
+#userManagementButton {
+background-color: #3D2C2E; /* Desired button background color */
+color: #ffffff; /* Desired text color */
+border: none;
+padding: 12px 20px;
+border-radius: 30px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+#logoutButton:hover,
+#quizbankSettingsButton:hover,
+#dashboardButton:hover,
+#userManagementButton:hover {
+background-color: #639fab; /* Change to a different color on hover */
+}
+    .settings-btn:focus {
+        outline: 2px solid #3D2C2E;
+    }
+    .edit-overlay, .settings-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .edit-container, .settings-container {
+        background: #639fab;
+        padding: 20px;
+        border-radius: 30px;
+        width: 600px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+    }
+    .action-buttons-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .action-cell {
+        display: inline-flex;
+        gap: 10px;
+    }
+    .action-cell button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #3D2C2E;
+        color: white;
+        transition: background-color 0.3s;
+        display: inline-block;
+margin: 0; /* Ensure no added margin throws off alignment */
+line-height: normal; /* Matches text alignment within the button */
+    }
+    .action-cell button:hover {
+        background-color: #639FAB;
+    }
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+}
+#questionsContainer {
+    margin-bottom: 60px; /* Add more space below dynamically generated questions */
+}
+.container.quiz-form {
+    margin-bottom: 80px; /* Adds extra space below the quiz form */
+}
+#main {
+    padding-bottom: 100px; /* Extra padding to prevent content from overlapping the footer */
+}
+.logo {
+    width: 20%;  /* Adjust to desired percentage */
+    height: auto;  /* Maintain aspect ratio */
+    max-width: 300px;  /* Optional: Set a maximum size */
+}
+@media (max-width: 600px) {
+    .logo {
+        width: 40%; /* Increase size for smaller screens if needed */
+    }
+}
+/* Sidebar adjustments for mobile screens */
+@media (max-width: 768px) {
+    #leftSidebar {
+        width: 250px; /* Set width to a manageable size for mobile */
+        height: 100%;
+        overflow-y: auto; /* Allow vertical scrolling if content overflows */
+        transition: 0.3s;
+        padding: 10px; /* Add padding to ensure content does not touch edges */
+    }
+    #main {
+        margin-left: 0;
+    }
+    .sidebar a {
+        font-size: 20px;
+        padding: 15px 30px;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .closebtn {
+        font-size: 30px;
+    }
+    .theme-toggle {
+        margin-top: 20px; /* Add margin to separate theme toggle from other elements */
+        padding: 15px;
+    }
+}
+.sidebar a:hover {
+    transform: translateX(5px); /* Slight slide effect */
+}
+/* Hero Section adjustments for mobile screens */
+@media (max-width: 768px) {
+    .hero {
+        padding: 120px 20px;
+    }
+    .hero h1 {
+        font-size: 2em;
+    }
+    .hero p {
+        font-size: 1em;
+    }
+}
+/* Button adjustments */
+@media (max-width: 768px) {
+    .openbtn {
+        font-size: 18px;
+        padding: 8px 12px;
+    }
+    .openbtn img {
+        width: 100px;
+    }
+}
+/* Form fields adjustments */
+@media (max-width: 768px) {
+    input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea {
+        width: 100%;
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+/* Footer adjustments for mobile screens */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .footer-text {
+        font-size: 14px;
+    }
+}
+.content-wrapper {
+    flex: 1; /* Allow main content to expand */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full viewport height */
+}
+#main {
+    flex-grow: 1; /* Allows #main to expand and push footer down */
+}
+/* Start Quiz Button Styling */
+#start-quiz-button {
+    background-color: #3D2C2E; /* Button color */
+    color: white;              /* Text color */
+    font-size: 1.2em;          /* Font size */
+    padding: 12px 24px;        /* Padding for better spacing */
+    border: none;              /* No border */
+    border-radius: 30px;        /* Rounded corners */
+    cursor: pointer;           /* Cursor changes to pointer on hover */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition effect */
+}
+/* Hover Effect for Start Quiz Button */
+#start-quiz-button:hover {
+    background-color: #639FAB; /* Change color on hover */
+}
+.quiz-bank-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #639FAB;
+    border-radius: 5px;
+    background-color: #f5edf0;
+}
+.quiz-bank-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.quiz-bank-table th, .quiz-bank-table td {
+    padding: 10px;
+    border: 1px solid #639FAB;
+    text-align: center;
+}
+/* Style for the Select Role dropdown to match input fields */
+#loginForm select, /* Targeting the select dropdown */
+#loginForm input[type="text"], /* Targeting username field */
+#loginForm input[type="password"], /* Targeting password field */
+#loginForm button { /* Targeting the login button */
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    border: 2px solid #3D2C2E;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+/* Additional styling for #roleSelect specifically */
+#roleSelect {
+    background-color: #f9f9f9;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none;    /* For Firefox */
+}
+/* Optional: add custom styling for dark mode */
+body.dark-mode #roleSelect,
+body.dark-mode #username,
+body.dark-mode #password {
+    background-color: #639fab;
+    color: #fafafa;
+    border-color: #444;
+}
+.answer-wrapper {
+    display: flex;
+    align-items: center; /* Ensures all elements are vertically aligned */
+    margin-bottom: 10px; /* Adds some space between answer fields */
+}
+.answer-number {
+    margin-right: 10px; /* Adds space between the number and the text field */
+    flex: 0 0 30px; /* Reserves space for the number */
+}
+.answer-input {
+    flex: 1; /* Takes up all available space in the middle */
+    margin-right: 10px; /* Adds space between the text field and the checkbox */
+}
+.correct-checkbox {
+    margin-left: 10px; /* Adds space between the checkbox and the text field */
+}
+/* Styling for the highlighted answer wrapper */
+.answer-wrapper.highlight {
+    background-color: #d4edda; /* Light green background for highlighting */
+    border: 2px solid #28a745; /* Green border to emphasize */
+    padding: 5px;
+    border-radius: 30px;
+}
+/* Styling for bold text in the highlighted answer */
+.answer-input.bold-text {
+    font-weight: bold;
+}
+/* Neon glow effect for footer text in dark mode */
+body.dark-mode .footer-text.neon-glow {
+    color: #639fab; /* Base color for the text */
+    text-shadow: 
+        0 0 15px #639fab, /* Inner glow */
+        0 0 1px #639fab, /* Slightly larger glow */
+        0 0 30px #639fab, /* Outer glow */
+        0 0 40px #3d2c2e; /* Subtle complementary outer spread */
+    font-weight: bold; /* Make the text stand out */
+    transition: all 2.3s ease; /* Smooth transition for the glow effect */
+}
+/*Dark Mode Styles*/
+body.dark-mode .hero h1,
+body.dark-mode .hero p {
+    color: #ffffff; /* White text for dark mode */
+}
+/* Team Member Styles for Light Mode (default) */
+.member h4 {
+    color: #3D2C2E; /* Default dark color for team member names */
+}
+.arrow {
+    color: #3D2C2E; /* Default dark color for arrows */
+}
+.full-qualifications h4,
+.full-qualifications ul {
+    color: #333; /* Dark gray for qualifications text in light mode */
+}
+/* Dark Mode Styles */
+html.dark .member h4 {
+    color: #FFFFFF; /* White team member names in dark mode */
+}
+html.dark .arrow {
+    color: #639fab; /* Blue arrows in dark mode */
+}
+html.dark .full-qualifications h4,
+html.dark .full-qualifications ul {
+    color: #000000; /* Black text for qualifications in dark mode */
+}
+/* Dark Mode Styles */
+html.dark .container.about-section h3 {
+    color: #FFFFFF; /* White "About Us" text in dark mode */
+}
+html.dark .member img {
+    filter: brightness(80%); /* Slightly dim images in dark mode (optional) */
+}
