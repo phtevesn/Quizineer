@@ -15,18 +15,30 @@ const PORT = 3000;  //process.env.PORT || 3000
 app.use(cors());
 app.use(bodyParser.json());
 
-//MySQL connection 
+//MySQL connection
+/*
 const db = mysql.createConnection({
-  host: "localhost",  //'localhost'
-  user: "root",
-  password: "Baseball34!?",
-  database: "CSC131"
+  host: "localhost",
+  user: "",
+  password: "",
+  database: ""
+})
+*/
+
+var hostname = "naxiov.h.filess.io";
+var database = "quizineerdb_wiseclayit";
+var port = "3307";
+var username = "quizineerdb_wiseclayit";
+var password = "a470fe4901571ed80f04a41bd1f19029dbee3c9d";
+
+const db = mysql.createConnection({
+  host: hostname,
+  user: username,
+  password,
+  database,
+  port,
 })
 
-//says what port server is running on 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
 //checks to see if connected to the sql database
 db.connect(err => {
@@ -34,7 +46,6 @@ db.connect(err => {
   console.log('MySQL connected!');
 });
 
-//checks what database is being used 
 db.query('SELECT DATABASE()', (err, results) => {
   if (err) {
       console.error('Error fetching current database:', err);
@@ -43,6 +54,9 @@ db.query('SELECT DATABASE()', (err, results) => {
   console.log('Currently using database:', results[0]['DATABASE()']);
 });
 
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 /*admin login functions*/
 app.post('/admin/login', (req, res) => {
@@ -59,10 +73,8 @@ app.post('/admin/login', (req, res) => {
           if (err || !match) {
               return res.status(401).json({ message: 'Invalid password' });
           }
-
-          //res.status(200).json({ message: 'Login successful', username: results[0].username });
           return res.status(200).json({ message: 'Login successful', username: results[0].username });
-          //when i return method that means username and password are correct 
+
       });
   });
 });
@@ -88,6 +100,7 @@ app.post('/admin/password', async (req, res) => {
   }
 });
 /*end admin login functions*/
+
 
 /*beginning of user's functions*/
 //adds a user
@@ -118,6 +131,7 @@ app.post('/add/user', async (req, res) => {
     return res.status(500).send({ message: 'Error hashing password' });
   }
 });
+
 //edit user information
 app.put('/edit/user/:userID', async (req, res) => {
   const id = req.params.userID;
@@ -169,7 +183,6 @@ app.put('/edit/user/password/:userID', async (req, res) => {
   }
 });
 
-//delete the user and if there are values in the history deletes those too 
 app.delete('/delete/user/:userID', (req, res) => {
   const userID = req.params.userID;
   db.beginTransaction((err) => {
@@ -224,7 +237,6 @@ app.post('/user/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid password' });
         }
         return res.status(200).json({ message: 'Login success', username: results[0].username, userID: results[0].userID });
-        //when i return method that means username and password are correct 
     });
   });
 });
@@ -270,40 +282,6 @@ app.get('/get/users/info', (req, res)=>{
 
 
 
-app.post('/api/questions/many', (req, res) => {
-  const questions = req.body.questions;
-
-  if (!Array.isArray(questions)) {
-    return res.status(400).send({ message: 'Invalid input format. Expected an array of questions.' });
-  }
-  const query = 'INSERT INTO question (questionTitle, correctAns, option1, option2, option3, option4, option5) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  let errorOccurred = false;
-  questions.forEach((question, index) => {
-    const { questionText, correctAnswerText, answer1Text, answer2Text, answer3Text, answer4Text, answer5Text } = question;
-    // Use default empty string if any option field is undefined
-    const values = [
-      questionText,
-      correctAnswerText,
-      answer1Text ?? null,
-      answer2Text ?? null,
-      answer3Text ?? null,
-      answer4Text ?? null,
-      answer5Text ?? null,
-    ];
-    db.query(query, values, (err) => {
-      if (err) {
-        console.error('Error inserting question:', err);
-        errorOccurred = true;
-        if (index === questions.length - 1) {
-          return res.status(500).send({ message: 'Error saving questions' });
-        }
-      } else if (index === questions.length - 1 && !errorOccurred) {
-        res.status(201).send({ message: 'Questions saved!' });
-      }
-    });
-  });
-});
-
 // Route to get the entire table
 app.get('/question/data', (req, res) => {
   const query = 'SELECT * FROM question';
@@ -313,42 +291,11 @@ app.get('/question/data', (req, res) => {
       console.error('Error executing query:', err);
       return res.status(500).send('Error executing query');
     }
-
-    // Send results as a JSON response
     res.json(results);
   });
 });
 
 
-//the table and where in the table again just an api 
-//i probably need to restructure this method it is ugly af
-app.delete('/question/:questionID', async (req, res) => {
-  const { questionID } = req.params;
-  try {
-    const success = await deleteQuestionFromDatabase(questionID); // Await if async
-
-    if (success) {
-      res.status(200).json({ message: 'Question deleted successfully' });
-    } else {
-      res.status(500).json({ message: 'Failed to delete question' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-async function deleteQuestionFromDatabase(questionID) {
-  const query = 'DELETE FROM question WHERE questionID = ?'; 
-  
-  try {
-    const [result] = await db.promise().query(query, [questionID]);
-    
-    // Check if any rows were affected (if not, the ID doesn't exist)
-    return result.affectedRows > 0;
-  } catch (error) {
-    console.error('Error deleting question:', error);
-    throw error; // Rethrow error to be handled in the route
-  }
-}
 //new delete method
 app.delete('/delete/question/:questionID', (req, res) =>{
   const {questionID}  = req.params;
@@ -365,29 +312,6 @@ app.delete('/delete/question/:questionID', (req, res) =>{
     res.status(200).json({ message: '1' });
   });
 })
-/*
-//old edit function 
-app.put('/api/editQuestions/:questionID', (req, res) => {
-  const questionID = req.params.questionID;
-  const { questionText, correctAnswer, optionOne, optionTwo, optionThree, optionFour} = req.body;
-
-  const query = `
-    UPDATE question
-    SET questionTitle = ?, correctAns = ?, option1 = ?, option2 = ?, option3 = ?, option4 = ?
-    WHERE questionID = ?
-  `;
-  db.query(query, [questionText, correctAnswer, optionOne, optionTwo, optionThree, optionFour, questionID], (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: 'Failed to update question' });
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Question not found' });
-    }
-    res.status(200).json({ message: 'Question updated successfully' });
-  });
-});
-*/
 
 //new edit function 
 app.put('/edit/question/:questionID', (req, res) => {
@@ -427,7 +351,7 @@ app.put('/edit/question/:questionID', (req, res) => {
 
 
 
-/*new question functions */ //i didn't add input validation sorry just a lazy guy i guess
+/*new question functions */
 //adds a test into tests table
 app.post('/add/test/info', (req, res) => {
   const {title, timer, numOfQuestions} = req.body;
@@ -632,26 +556,6 @@ app.get('/test/size/:testID', (req, res) => {
 /*end of question functions*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* beginning of admin test settings */
 // set the timer
 app.put('/timer', (req, res) =>{
@@ -717,7 +621,6 @@ app.get('/get/total/questions', (req, res) => {
       return res.status(500).send('Error executing query');
     }
 
-    // Send results as a JSON response
     res.json(results);
   });
 });
@@ -753,14 +656,6 @@ app.get('/get/title', (req, res) =>  {
     res.json(results);
   })
 })
-
-
-
-
-
-
-
-
 
 
 
