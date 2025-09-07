@@ -158,7 +158,7 @@ Table of Contents
     Below are said credentials to access the live website.
 
         - Username: user
-        - Password: password
+        - Password: uubksgfo
 
     Once logged in, you will have access to the live development website.
 
