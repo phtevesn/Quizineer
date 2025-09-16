@@ -25,11 +25,11 @@ const db = mysql.createConnection({
 })
 */
 
-var hostname = "naxiov.h.filess.io";
-var database = "quizineerdb_wiseclayit";
-var port = "3307";
-var username = "quizineerdb_wiseclayit";
-var password = "a470fe4901571ed80f04a41bd1f19029dbee3c9d";
+var hostname = "";
+var database = "";
+var port = "";
+var username = "";
+var password = "";
 
 const db = mysql.createConnection({
   host: hostname,
